@@ -1,7 +1,8 @@
 # Site settings
 title: laosuan的博客
 SEOTitle: laosuan的博客 | BY Blog
-header-img: img/post-bg-desk.jpg
+# header-img: img/post-bg-desk.jpg
+header-img: https://liuxuan.tech/Blog/ArticleTitleImage/54311756129d4f34b1777f5806f4e3c0_b0365026_5aa0b23ebf701.jpg"
 email: lx@liuxuan.work
 description: "Every failure is leading towards success."
 keyword: "BY, BY Blog, laosuan的博客"
