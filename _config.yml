@@ -1,5 +1,5 @@
 # Site settings
-title: aosuan的博客
+title: laosuan的博客
 SEOTitle: laosuan的博客 | BY Blog
 header-img: img/post-bg-desk.jpg
 email: lx@liuxuan.work
@@ -111,4 +111,4 @@ service-worker: true
 #         title: "Apple Developer",
 #         href: "https://developer.apple.com/"
 #     }
-]
+# ]
