@@ -15,7 +15,7 @@ tags:
 BIll Gates had recommeded a lots of books are really worth reading.  Follow are details:
 
 ### 2019
-- [Looking for a summer read? Try one of these 5 books | May 20, 2019](https://www.gatesnotes.com/About-Bill-Gates/Summer-Books-2019)
+- [Looking for a summer read? Try one of these 5 books     May 20, 2019](https://www.gatesnotes.com/About-Bill-Gates/Summer-Books-2019)
 - [5 books to enjoy this winter | December 10, 2019](https://www.gatesnotes.com/About-Bill-Gates/Holiday-Books-2019)
 
 ### 2018
