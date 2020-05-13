@@ -52,7 +52,8 @@ BIll Gates had recommeded a lots of books are really worth reading.  Follow are 
 
 ## BOOK REVIEWS
 
-BIll Gates had recommeded a lots of books are really worth reading.  Follow are details:
+- [BOOK REVIEWS](https://www.gatesnotes.com/Books#AllReviews)
+
 
 
 
