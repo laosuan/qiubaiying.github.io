@@ -702,6 +702,67 @@ footer .copyright a:hover,
 footer .copyright a:focus {
   color: #0085a1;
 }
+
+.header.header-main .header-category,
+.tag-cloud,
+.widget,
+.widget.widget-side p,
+footer.footer,
+footer.footer.footer-page p {
+    font-family: 'Open Sans', '-apple-system', HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', 'Hiragino Sans GB', 'Microsoft YaHei', Helvetica, Arial, sans-serif, sans-serif
+}
+
+footer.footer {
+    padding: 60px 0 15px
+}
+
+footer.footer div[class*=col] {
+    padding-right: 25px;
+    padding-left: 25px
+}
+
+footer.footer .footer-brand {
+    font-size: 22px;
+    font-weight: 900!important;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #b1b1b1!important
+}
+
+footer.footer .footer-brand:hover {
+    text-decoration: none!important;
+    color: #55a3ff!important
+}
+
+footer.footer.footer-widgetless {
+    padding: 15px 0
+}
+
+footer.footer.footer-page {
+    background: linear-gradient(to bottom, rgba(0, 255, 196, .2), rgba(41, 58, 63, 0));
+    color: #fff;
+    background-color: #3c465a;
+    box-shadow: inset 0 1px 6px 0 rgba(44, 50, 63, .41)
+}
+
+footer.footer.footer-page a {
+    color: #fff
+}
+
+footer.footer.footer-page a:hover {
+    color: #55a3ff
+}
+
+footer.footer.footer-page p {
+    font-size: 16px;
+    line-height: 1.6!important
+}
+
+footer.footer.footer-page p.copyright {
+    font-size: 13px
+}
+
 .floating-label-form-group {
   font-size: 14px;
   position: relative;
@@ -1089,3 +1150,4 @@ img::-moz-selection {
 .page-fullscreen footer .copyright a:hover {
   color: #ddd;
 }
+
