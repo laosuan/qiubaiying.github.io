@@ -72,27 +72,15 @@ http://10.128.10.179:9200/_cluster/health?level=indices
 http://10.128.10.179:9200/_cluster/health?level=shards
 ```
 
-1.git 删除远程地址
 
-```
-git remote rm origin
-```
-
-2.git 更换远程地址
-
-```
- git remote add origin http://10.00.3.260:10080/xxxxxx/sxxxy.git/
-```
-
-3.把当前分支与远程分支进行关联**(branchname要改成你的当前分支名称)**
-
-```
-git push --set-upstream origin branchname
-```
 
 refference:
 
 - https://www.elastic.co/guide/cn/elasticsearch/guide/current/_monitoring_individual_nodes.html
+
 - https://www.elastic.co/guide/en/elasticsearch/guide/current/_monitoring_individual_nodes.html
-- http://www.54tianzhisheng.cn/2018/08/04/why-see-es-code/
+
+- [为什么要看ES源码]( http://www.54tianzhisheng.cn/2018/08/04/why-see-es-code/)
+
 - [https://laijianfeng.org/2018/08/%E6%95%99%E4%BD%A0%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95Elasticsearch-6-3-2%E6%BA%90%E7%A0%81/](https://laijianfeng.org/2018/08/教你编译调试Elasticsearch-6-3-2源码/)
+
