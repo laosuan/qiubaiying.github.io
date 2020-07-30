@@ -95,3 +95,4 @@ refference:
 - https://www.elastic.co/guide/cn/elasticsearch/guide/current/_monitoring_individual_nodes.html
 - https://www.elastic.co/guide/en/elasticsearch/guide/current/_monitoring_individual_nodes.html
 - http://www.54tianzhisheng.cn/2018/08/04/why-see-es-code/
+- [https://laijianfeng.org/2018/08/%E6%95%99%E4%BD%A0%E7%BC%96%E8%AF%91%E8%B0%83%E8%AF%95Elasticsearch-6-3-2%E6%BA%90%E7%A0%81/](https://laijianfeng.org/2018/08/教你编译调试Elasticsearch-6-3-2源码/)
