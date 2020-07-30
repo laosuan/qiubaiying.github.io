@@ -94,3 +94,4 @@ refference:
 
 - https://www.elastic.co/guide/cn/elasticsearch/guide/current/_monitoring_individual_nodes.html
 - https://www.elastic.co/guide/en/elasticsearch/guide/current/_monitoring_individual_nodes.html
+- http://www.54tianzhisheng.cn/2018/08/04/why-see-es-code/
