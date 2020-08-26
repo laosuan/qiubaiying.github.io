@@ -6,7 +6,7 @@
                 <ul class="list-inline text-center">
                     {% if site.RSS %}
                     <li>
-                        <a href="{{ " /feed.xml " | prepend: site.baseurl }}">
+                        <a href="{{ "/feed.xml" | prepend: site.baseurl }}">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
@@ -16,15 +16,16 @@
                     {% endif %}
                     <!-- add jianshu add target = "_blank" to <a> by BY -->
                     {% if site.jianshu_username %}
-                    <li>
-                        <a target="_blank" href="https://www.jianshu.com/u/{{ site.jianshu_username }}">
-                            <span class="fa-stack fa-lg">
+                            <li>
+                                <a target="_blank" href="https://www.jianshu.com/u/{{ site.jianshu_username }}">
+                                    <span class="fa-stack fa-lg">
                                         <i class="fa fa-circle fa-stack-2x"></i>
                                         <i class="fa  fa-stack-1x fa-inverse">简</i>
                                     </span>
-                        </a>
-                    </li>
-                    {% endif %} {% if site.twitter_username %}
+                                </a>
+                            </li>
+                    {% endif %}
+                    {% if site.twitter_username %}
                     <li>
                         <a href="https://twitter.com/{{ site.twitter_username }}">
                             <span class="fa-stack fa-lg">
@@ -45,7 +46,8 @@
                             </span>
                         </a>
                     </li>
-                    {% endif %} {% if site.weibo_username %}
+                    {% endif %}
+                    {% if site.weibo_username %}
                     <li>
                         <a target="_blank" href="http://weibo.com/{{ site.weibo_username }}">
                             <span class="fa-stack fa-lg">
@@ -54,7 +56,10 @@
                             </span>
                         </a>
                     </li>
-                    {% endif %} {% if site.facebook_username %}
+                    {% endif %}
+
+
+                    {% if site.facebook_username %}
                     <li>
                         <a target="_blank" href="https://www.facebook.com/{{ site.facebook_username }}">
                             <span class="fa-stack fa-lg">
@@ -63,7 +68,8 @@
                             </span>
                         </a>
                     </li>
-                    {% endif %} {% if site.github_username %}
+                    {% endif %}
+                    {% if site.github_username %}
                     <li>
                         <a target="_blank" href="https://github.com/{{ site.github_username }}">
                             <span class="fa-stack fa-lg">
@@ -72,7 +78,8 @@
                             </span>
                         </a>
                     </li>
-                    {% endif %} {% if site.linkedin_username %}
+                    {% endif %}
+                    {% if site.linkedin_username %}
                     <li>
                         <a target="_blank" href="https://www.linkedin.com/in/{{ site.linkedin_username }}">
                             <span class="fa-stack fa-lg">
@@ -85,8 +92,12 @@
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; {{ site.title }} {{ site.time | date: '%Y' }}
-                    <br> Theme on <a href="{{ site.github_repo }}">GitHub</a> |
-                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="100px" height="20px" src="https://ghbtns.com/github-btn.html?user={{ site.github_username }}&repo={{ site.github_username }}.github.io&type=star&count=true">
+                    <br>
+                    Theme on <a href="{{ site.github_repo }}">GitHub</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user={{ site.github_username }}&repo={{ site.github_username }}.github.io&type=star&count=true" >
                     </iframe>
                 </p>
             </div>
@@ -101,84 +112,81 @@
 
 
 
-    <!--<section class="copyright "><a href="{{@blog.url}} ">{{@blog.title}}</a> &copy; {{date format="YYYY "}}</section>-->
-    <!--<section>-->
-    <!--<a href="https://github.com/foru17/Yasuko">Theme Yasuko  </a> <a href="https://github.com/foru17/Yasuko" class="github-repo"><span class="gadget-github"></span>Star</a>-->
-    <!--</section>-->
-    <!--<section class="poweredby ">Powered by  <a href="https://ghost.org ">Ghost</a></section>-->
-    <!--<section class="poweredby ">本博客托管于  <a href="https://luolei.org/how-much-i-spend-on-cloud-monthly/">阿里云中国</a>  CDN加速 by <a href="https://www.qiniu.com/">七牛云</a> </section>-->
-    <!--<section><a href="http://www.miitbeian.gov.cn/">粤ICP备18071609号</a></section>-->
-    <div class="container">
-        <div class="row">
-            <div class="widget widget-footer col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <h2 class="widget-title">Popular tags</h2>
-                <ul>
+          <!--<section class="copyright "><a href="{{@blog.url}} ">{{@blog.title}}</a> &copy; {{date format="YYYY "}}</section>-->
+        <!--<section>-->
+        <!--<a href="https://github.com/foru17/Yasuko">Theme Yasuko  </a> <a href="https://github.com/foru17/Yasuko" class="github-repo"><span class="gadget-github"></span>Star</a>-->
+        <!--</section>-->
+            <!--<section class="poweredby ">Powered by  <a href="https://ghost.org ">Ghost</a></section>-->
+						<!--<section class="poweredby ">本博客托管于  <a href="https://luolei.org/how-much-i-spend-on-cloud-monthly/">阿里云中国</a>  CDN加速 by <a href="https://www.qiniu.com/">七牛云</a> </section>-->
+            <!--<section><a href="http://www.miitbeian.gov.cn/">粤ICP备18071609号</a></section>-->
+            <div class="container">
+                <div class="row">
+                    <div class="widget widget-footer col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <h2 class="widget-title">Popular tags</h2>
+                        <ul>
                     <li><a href="/tag/swimming/">swimming</a></li>
-                    <li><a href="/tag/machine%20learning/">Machine Learning</a></li>
-                    <li><a href="/tag/algorithm/">algorithm</a></li>
-                </ul>
-            </div>
-            <div class="widget widget-footer col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <h2 class="widget-title">About</h2>
-                <ul>
-                    <li><a href="/archives/">Article archives</a></li>
-                    <li><a href="/links/">Links</a></li>
-                    <li><a href="/reading/">Reading English</a></li>
-                    <li><a href="/subscribe/">Subscribe</a></li>
-                </ul>
-                <p style="color:#b1b1b1;font-size: 13px;">
-                    Theme Yasuko
-                    <a href="https://github.com/foru17/Yasuko" class="github-repo" style="height:18px;color:#737373;"><span class="gadget-github"></span>Star</a> Powered by <a href="https://ghost.org/" target="_blank" rel="noopener">Ghost</a>
-                </p>
-            </div>
-            <div class="widget widget-footer col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <h2 class="widget-title">Newsletter</h2>
-                <p style="color:#b1b1b1;">Subscribe to our newsletter and stay updated on the latest news and special offers!</p>
-                <div id="mc_embed_signup">
-                    <form class="form-footer validate" action="//us18.list-manage.com/subscribe?u=1ab1c4e211ae9c3946dc43174&amp;id=0fa601dcb1&orig-lang=1" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate>
-                        <div id="mc_embed_signup_scroll">
-                            <div class="mc-field-group form-group">
-                                <input type="email" value="" name="EMAIL" class="required email form-control form-control-dark" id="mce-EMAIL" placeholder="Enter your email" aria-label="email">
-                            </div>
-                            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary" style="position:  static;border-color: #3d888c;background-color: #3d888c;"></div>
+                            <li><a href="/tag/machine%20learning/">Machine Learning</a></li>
+                            <li><a href="/tag/algorithm/">algorithm</a></li>
+                        </ul>
+                    </div>
+                    <div class="widget widget-footer col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <h2 class="widget-title">About</h2>
+                        <ul>
+                            <li><a href="/archives/">Article archives</a></li>
+                            <li><a href="/links/">Links</a></li>
+                            <li><a href="/about/">About me</a></li>
+                            <li><a href="/subscribe/">Subscribe</a></li>
+                        </ul>
+                        <p style="color:#b1b1b1;font-size: 13px;">
+                            Theme Yasuko
+                            <a href="https://github.com/foru17/Yasuko" class="github-repo" style="height:18px;color:#737373;"><span class="gadget-github"></span>Star</a> Powered by <a href="https://ghost.org/" target="_blank" rel="noopener">Ghost</a>
+                        </p>
+                    </div>
+                    <div class="widget widget-footer col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <h2 class="widget-title">Newsletter</h2>
+                        <p style="color:#b1b1b1;">Subscribe to our newsletter and stay updated on the latest news and special offers!</p>
+                        <div id="mc_embed_signup">
+                            <form class="form-footer validate" action="//us18.list-manage.com/subscribe?u=1ab1c4e211ae9c3946dc43174&amp;id=0fa601dcb1&orig-lang=1" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" novalidate>
+                                <div id="mc_embed_signup_scroll">
+                                    <div class="mc-field-group form-group">
+                                        <input type="email" value="" name="EMAIL" class="required email form-control form-control-dark" id="mce-EMAIL" placeholder="Enter your email" aria-label="email">
+                                    </div>
+                                    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button btn btn-primary" style="position:  static;border-color: #3d888c;background-color: #3d888c;"></div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
+                </div>
+                <div class="row copyright">
+                    <div class="col-sm-12">
+                        <p class="copyright" style="color:#b1b1b1;">
+                            <a href="https://www.liuxuan.tech" target="_blank" rel="noopener">liuxuan.tech</a>
+                            Copyright &copy; 2017 - 2018
+                            <a href="http://www.miitbeian.gov.cn/" style="color: #ffffff">  粤ICP备18071609号</a>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row copyright">
-            <div class="col-sm-12">
-                <p class="copyright" style="color:#b1b1b1;">
-                    <a href="https://www.liuxuan.tech" target="_blank" rel="noopener">liuxuan.tech</a> Copyright &copy; 2017 - 2018
-                    <a href="http://www.miitbeian.gov.cn/" style="color: #ffffff">  粤ICP备18071609号</a>
-                </p>
-            </div>
-        </div>
-    </div>
 </footer>
 
 <!-- jQuery -->
-<script src="{{ " /js/jquery.min.js " | prepend: site.baseurl }}"></script>
+<script src="{{ "/js/jquery.min.js " | prepend: site.baseurl }}"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="{{ " /js/bootstrap.min.js " | prepend: site.baseurl }}"></script>
+<script src="{{ "/js/bootstrap.min.js " | prepend: site.baseurl }}"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="{{ " /js/hux-blog.min.js " | prepend: site.baseurl }}"></script>
+<script src="{{ "/js/hux-blog.min.js " | prepend: site.baseurl }}"></script>
 
 <!-- Service Worker -->
 {% if site.service-worker %}
 <script type="text/javascript">
-    if (navigator.serviceWorker) {
+    if(navigator.serviceWorker){
         // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
         navigator.serviceWorker
             .register('/sw.js')
-            .then((registration) => {
-                console.log('Service Worker Registered. ', registration)
-            })
-            .catch((error) => {
-                console.log('ServiceWorker registration failed: ', error)
-            })
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
     }
 </script>
 {% endif %}
@@ -187,17 +195,12 @@
 <!-- async load function -->
 <script>
     function async(u, c) {
-        var d = document,
-            t = 'script',
-            o = d.createElement(t),
-            s = d.getElementsByTagName(t)[0];
-        o.src = u;
-        if (c) {
-            o.addEventListener('load', function(e) {
-                c(null, e);
-            }, false);
-        }
-        s.parentNode.insertBefore(o, s);
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
     }
 </script>
 
@@ -224,14 +227,11 @@
 <!-- jquery.tagcloud.js -->
 <script>
     // only load tagcloud.js in tag.html
-    if ($('#tag_cloud').length !== 0) {
-        async('{{ "/js/jquery.tagcloud.js" | prepend: site.baseurl }}', function() {
+    if($('#tag_cloud').length !== 0){
+        async('{{ "/js/jquery.tagcloud.js" | prepend: site.baseurl }}',function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
-                color: {
-                    start: '#bbbbee',
-                    end: '#0085a1'
-                },
+                color: {start: '#bbbbee', end: '#0085a1'},
             };
             $('#tag_cloud a').tagcloud();
         })
@@ -240,9 +240,9 @@
 
 <!--fastClick.js -->
 <script>
-    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function() {
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
-        if ($nav) FastClick.attach($nav);
+        if($nav) FastClick.attach($nav);
     })
 </script>
 
@@ -255,17 +255,10 @@
     var _gaDomain = '{{ site.ga_domain }}';
 
     // Originial
-    (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function() {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', _gaId, _gaDomain);
     ga('send', 'pageview');
@@ -282,10 +275,10 @@
     // Originial
     var _hmt = _hmt || [];
     (function() {
-        var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?" + _baId;
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
     })();
 </script>
 {% endif %}
@@ -295,25 +288,24 @@
 <!-- Side Catalog -->
 {% if page.catalog %}
 <script type="text/javascript">
-    function generateCatalog(selector) {
-        var P = $('div.post-container'),
-            a, n, t, l, i, c;
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
         a = P.find('h1,h2,h3,h4,h5,h6');
-        a.each(function() {
+        a.each(function () {
             n = $(this).prop('tagName').toLowerCase();
-            i = "#" + $(this).prop('id');
+            i = "#"+$(this).prop('id');
             t = $(this).text();
-            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
-            l = $('<li class="' + n + '_nav"></li>').append(c);
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
             $(selector).append(l);
         });
-        return true;
+        return true;    
     }
 
     generateCatalog(".catalog-body");
 
     // toggle side catalog
-    $(".catalog-toggle").click((function(e) {
+    $(".catalog-toggle").click((function(e){
         e.preventDefault();
         $('.side-catalog').toggleClass("fold")
     }))
@@ -322,7 +314,7 @@
      * Doc: https://github.com/davist11/jQuery-One-Page-Nav
      * Fork by Hux to support padding
      */
-    async("{{ '/js/jquery.nav.js' | prepend: site.baseurl }}", function() {
+    async("{{ '/js/jquery.nav.js' | prepend: site.baseurl }}", function () {
         $('.catalog-body').onePageNav({
             currentClass: "active",
             changeHash: !1,
@@ -339,3 +331,4 @@
     });
 </script>
 {% endif %}
+
