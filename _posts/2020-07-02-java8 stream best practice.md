@@ -41,6 +41,14 @@ List<Map<String, Object>> finalRemoteData = remoteMapData.stream().filter(r -> !
             }).collect(Collectors.toList());
 ```
 
+## 5 构造指定值的数组并遍历
+
+```java
+Stream.of("1", "2", "3").forEach(System.out::println);
+```
+
+
+
 
 
 
