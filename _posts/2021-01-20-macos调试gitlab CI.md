@@ -2,7 +2,7 @@
 layout:     post
 title:     macos调试gitlab CI
 subtitle:   
-date:       2020-01-21
+date:       2021-01-21
 author:     laosuan
 header-img: 
 catalog: true
