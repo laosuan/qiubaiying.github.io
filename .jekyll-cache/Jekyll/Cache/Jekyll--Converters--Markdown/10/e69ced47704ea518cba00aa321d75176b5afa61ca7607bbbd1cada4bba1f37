@@ -1,0 +1,486 @@
+I"�k<h2 id="文件分类">文件分类</h2>
+
+<p>如果用简单直接的方式我们可以把文件分为两类</p>
+
+<ul>
+  <li>文本类型文件</li>
+  <li>其他类型文件</li>
+</ul>
+
+<p>文本类型文件的编码是逐字符进行的，每个字符的编码在任何语言任何类型计算机上的解释结果都是一样的，文本类型文件是本文分析的重点，后续会针对不同的编码方式进行详细的分析</p>
+
+<p>其他类型的文件，比如png,zip,可执行程序等则需要依赖于特定的环境和对应的应用程序来解析，其编码格式也并不是逐字符进行的，后续我们会找几个文件具体分析一下</p>
+
+<h2 id="文本类型文件">文本类型文件</h2>
+
+<p>简单来说，文本文件是基于字符编码的文件，每个字符对应一个固定的编码，顺序流式存取，在任何操作系统下的解释和编码结果都是一致的，文本文件除了所包含的字符以外没有任何其他信息。
+ 常用文本编码类型有：</p>
+
+<ul>
+  <li>ASCII</li>
+  <li>GB2312</li>
+  <li>Unicode</li>
+  <li>UTF-8</li>
+  <li>UTF-16</li>
+</ul>
+
+<p>一个个来看</p>
+
+<h3 id="ascii">ASCII</h3>
+
+<p><em>American Standard Code for Information Interchange，美国信息交换标准代码</em>
+ ASCII编码方案一共规定了128个字符对应的二进制表示，只占用了一个字节的后面7bit，最高位为0</p>
+
+<p><em>ASCII码表</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+      <th>E</th>
+      <th>F</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>NUL 0000</td>
+      <td>SOH 0001</td>
+      <td>STX 0002</td>
+      <td>ETX 0003</td>
+      <td>EOT 0004</td>
+      <td>ENQ 0005</td>
+      <td>ACK 0006</td>
+      <td>BEL 0007</td>
+      <td>BS 0008</td>
+      <td>HT 0009</td>
+      <td>LF 000A</td>
+      <td>VT 000B</td>
+      <td>FF 000C</td>
+      <td>CR 000D</td>
+      <td>SO 000E</td>
+      <td>SI 000F</td>
+    </tr>
+    <tr>
+      <td>DLE 0010</td>
+      <td>DC1 0011</td>
+      <td>DC2 0012</td>
+      <td>DC3 0013</td>
+      <td>DC4 0014</td>
+      <td>NAK 0015</td>
+      <td>SYN 0016</td>
+      <td>ETB 0017</td>
+      <td>CAN 0018</td>
+      <td>EM 0019</td>
+      <td>SUB 001A</td>
+      <td>ESC 001B</td>
+      <td>FS 001C</td>
+      <td>GS 001D</td>
+      <td>RS 001E</td>
+      <td>US 001F</td>
+    </tr>
+    <tr>
+      <td>SP 0020</td>
+      <td>! 0021</td>
+      <td>” 0022</td>
+      <td># 0023</td>
+      <td>$ 0024</td>
+      <td>% 0025</td>
+      <td>&amp; 0026</td>
+      <td>’ 0027</td>
+      <td>( 0028</td>
+      <td>) 0029</td>
+      <td>* 002A</td>
+      <td>+ 002B</td>
+      <td>, 002C</td>
+      <td>- 002D</td>
+      <td>. 002E</td>
+      <td>/ 002F</td>
+    </tr>
+    <tr>
+      <td>0 0030</td>
+      <td>1 0031</td>
+      <td>2 0032</td>
+      <td>3 0033</td>
+      <td>4 0034</td>
+      <td>5 0035</td>
+      <td>6 0036</td>
+      <td>7 0037</td>
+      <td>8 0038</td>
+      <td>9 0039</td>
+      <td>: 003A</td>
+      <td>; 003B</td>
+      <td>&lt; 003C</td>
+      <td>= 003D</td>
+      <td>&gt; 003E</td>
+      <td>? 003F</td>
+    </tr>
+    <tr>
+      <td>@ 0040</td>
+      <td>A 0041</td>
+      <td>B 0042</td>
+      <td>C 0043</td>
+      <td>D 0044</td>
+      <td>E 0045</td>
+      <td>F 0046</td>
+      <td>G 0047</td>
+      <td>H 0048</td>
+      <td>I 0049</td>
+      <td>J 004A</td>
+      <td>K 004B</td>
+      <td>L 004C</td>
+      <td>M 004D</td>
+      <td>N 004E</td>
+      <td>O 004F</td>
+    </tr>
+    <tr>
+      <td>P 0050</td>
+      <td>Q 0051</td>
+      <td>R 0052</td>
+      <td>S 0053</td>
+      <td>T 0054</td>
+      <td>U 0055</td>
+      <td>V 0056</td>
+      <td>W 0057</td>
+      <td>X 0058</td>
+      <td>Y 0059</td>
+      <td>Z 005A</td>
+      <td>[ 005B</td>
+      <td>\ 005C</td>
+      <td>] 005D</td>
+      <td>^ 005E</td>
+      <td>_ 005F</td>
+    </tr>
+    <tr>
+      <td>` 0060</td>
+      <td>a 0061</td>
+      <td>b 0062</td>
+      <td>c 0063</td>
+      <td>d 0064</td>
+      <td>e 0065</td>
+      <td>f 0066</td>
+      <td>g 0067</td>
+      <td>h 0068</td>
+      <td>i 0069</td>
+      <td>j 006A</td>
+      <td>k 006B</td>
+      <td>l 006C</td>
+      <td>m 006D</td>
+      <td>n 006E</td>
+      <td>o 006F</td>
+    </tr>
+    <tr>
+      <td>p 0070</td>
+      <td>q 0071</td>
+      <td>r 0072</td>
+      <td>s 0073</td>
+      <td>t 0074</td>
+      <td>u 0075</td>
+      <td>v 0076</td>
+      <td>w 0077</td>
+      <td>x 0078</td>
+      <td>y 0079</td>
+      <td>z 007A</td>
+      <td>{ 007B</td>
+      <td>| 007C</td>
+      <td>} 007D</td>
+      <td>~ 007E</td>
+      <td>DEL 007F</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">➜</span>  <span class="no">Encoding</span> <span class="n">git</span><span class="p">:(</span><span class="n">master</span><span class="p">)</span> <span class="err">✗</span> <span class="n">hexdump</span> <span class="o">-</span><span class="no">C</span> <span class="n">abcABC_ASCII</span><span class="p">.</span><span class="nf">txt</span>
+<span class="mo">00000000</span>  <span class="mi">61</span> <span class="mi">62</span> <span class="mi">63</span> <span class="mi">41</span> <span class="mi">42</span> <span class="mi">43</span>                                 <span class="o">|</span><span class="n">abcABC</span><span class="o">|</span>
+<span class="mo">00000006</span>
+
+<span class="err">➜</span>  <span class="no">Encoding</span> <span class="n">git</span><span class="p">:(</span><span class="n">master</span><span class="p">)</span> <span class="n">xxd</span> <span class="o">-</span><span class="n">b</span> <span class="n">abcABC_ASCII</span><span class="p">.</span><span class="nf">txt</span>
+<span class="mo">00000000</span><span class="p">:</span> <span class="mo">01100001</span> <span class="mo">01100010</span> <span class="mo">01100011</span> <span class="mo">01000001</span> <span class="mo">01000010</span> <span class="mo">01000011</span>  <span class="n">abcABC</span>
+</code></pre></div></div>
+
+<h3 id="gb2312">GB2312</h3>
+
+<blockquote>
+  <p>GB2312编码是第一个汉字编码国家标准，由中国国家标准总局1980年发布，1981年5月1日开始使用。GB2312编码共收录汉字6763个，其中一级汉字3755个，二级汉字3008个。同时，GB2312编码收录了包括拉丁字母、希腊字母、日文平假名及片假名字母、俄语西里尔字母在内的682个全角字符。</p>
+
+  <p>分区表示</p>
+
+  <p>GB2312编码对所收录字符进行了“分区”处理，共94个区，每区含有94个位，共8836个码位。这种表示方式也称为区位码。
+ 01-09区收录除汉字外的682个字符。
+ 10-15区为空白区，没有使用。
+ 16-55区收录3755个一级汉字，按拼音排序。
+ 56-87区收录3008个二级汉字，按部首/笔画排序。
+ 88-94区为空白区，没有使用。
+ 举例来说，“啊”字是GB2312编码中的第一个汉字，它位于16区的01位，所以它的区位码就是1601。</p>
+
+  <p>双字节编码
+ GB2312规定对收录的每个字符采用两个字节表示，第一个字节为“高字节”，对应94个区；第二个字节为“低字节”，对应94个位。所以它的区位码范围是：0101－9494。区号和位号分别加上0xA0就是GB2312编码。例如最后一个码位是9494，区号和位号分别转换成十六进制是5E5E，0x5E+0xA0＝0xFE，所以该码位的GB2312编码是FEFE。</p>
+
+  <p>GB2312编码范围：A1A1－FEFE，其中汉字的编码范围为B0A1-F7FE，第一字节0xB0-0xF7（对应区号：16－87），第二个字节0xA1-0xFE（对应位号：01－94）</p>
+</blockquote>
+
+<p><em>码表</em>
+ <a href="https://link.jianshu.com?t=http%3A%2F%2Ftools.jb51.net%2Ftable%2Fgb2312">http://tools.jb51.net/table/gb2312</a></p>
+
+<p>我们可以看到GB2312的编码范围为：A1A1-FEFE(10100001 10100001-11111110)，上文ASCII编码范围：00-7F(00000000-01111111)
+ 从ASCII的编码区间可以看出，单字节的高位没有用，一直为0，GB2312编码的高位一直为1，因此GB2312可以完全兼容ASCII，两者同时存在一个文件编码中。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">➜</span>  <span class="no">Encoding</span> <span class="n">git</span><span class="p">:(</span><span class="n">master</span><span class="p">)</span> <span class="err">✗</span> <span class="n">hexdump</span> <span class="o">-</span><span class="no">C</span> <span class="n">abcABC_GB2312</span><span class="p">.</span><span class="nf">txt</span>
+<span class="mo">00000000</span>  <span class="mi">61</span> <span class="mi">62</span> <span class="mi">63</span> <span class="mi">41</span> <span class="mi">42</span> <span class="mi">43</span> <span class="n">c4</span> <span class="n">e3</span>  <span class="n">ba</span> <span class="n">c3</span>                    <span class="o">|</span><span class="n">abcABC</span><span class="o">....|</span>
+<span class="mo">0000000</span><span class="n">a</span>
+</code></pre></div></div>
+
+<p>以上为“abcABC你好”的GB2312的编码数据，“abcABC”还是按照ASCII的编码方式处理：61 62 63 41 42 43，“你好”按照GB2312的编码方式：c4e3 bac3</p>
+
+<h3 id="unicode">Unicode</h3>
+
+<p>Unicode是一个全球统一的编码字符集，并不是一种编码方式，Unicode为每个字符分配唯一的字符编号，覆盖全球所有的语言和符号。Unicode用 U+紧跟着十六进制数表示。所有字符按照使用上的频繁度划分为 17 个平面（编号为 0-16），即基本的多语言平面和增补平面。基本的多语言平面（英文为 Basic Multilingual Plane，简称 BMP）又称平面 0，收集了使用最广泛的字符，代码点从 U+0000 到 U+FFFF，每个平面有 216=65536 个码点；增补平面从平面 1~16，分为增补多语言平面（平面 1）、增补象形平面（平面 2）、保留平面（平 3~13）、增补专用平面等，每个增补平面也有 216=65536 个码点。所以 17 个平总计有 17 × 65,536 = 1,114,112 个码点</p>
+
+<p>Unicode 字符集中的字符可以有多种不同的编码方式，如 UTF-8、UTF-16、UTF-32等。这里的 UTF 是 Unicode transformation format 的缩写，即统一码转换格式，将 Unicode 编码空间中每个码点和字节序列进行一一映射的算法。</p>
+
+<h3 id="utf-8">UTF-8</h3>
+
+<p>UTF-8是目前应用最广泛的一种Unicode编码方式，UTF-8是一种变长的编码方式，一般用1~4个字节序列来表示Unicode字符。
+ UTF-8的编码规则如下：</p>
+
+<ul>
+  <li>如果首字节以0开头，表示单字节编码，因此UTF-8完全兼容ASCII的编码方式U+0000到U+007F；</li>
+  <li>如果首字节以110开头，表示双字节编码；</li>
+  <li>如果首字节以1110开头，表示三字节编码；</li>
+  <li>如果首字节以11110开头，表示四字节编码；</li>
+  <li>如果首字节以111110开头，表示五字节编码；</li>
+  <li>如果首字节以1111110开头，表示六字节编码；</li>
+  <li>对于多字节编码的字符，后续字节以10开头，如：1110xxxx10xxxxxx10xxxxxx</li>
+</ul>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">➜</span>  <span class="no">Encoding</span> <span class="n">git</span><span class="p">:(</span><span class="n">master</span><span class="p">)</span> <span class="err">✗</span> <span class="n">hexdump</span> <span class="o">-</span><span class="no">C</span> <span class="n">abcABC_UTF8</span><span class="p">.</span><span class="nf">txt</span>
+<span class="mo">00000000</span>  <span class="mi">61</span> <span class="mi">62</span> <span class="mi">63</span> <span class="mi">41</span> <span class="mi">42</span> <span class="mi">43</span> <span class="n">e4</span> <span class="n">bd</span>  <span class="n">a0</span> <span class="n">e5</span> <span class="n">a5</span> <span class="n">bd</span> <span class="n">c2</span> <span class="n">ae</span>        <span class="o">|</span><span class="n">abcABC</span><span class="o">........|</span>
+<span class="mo">0000000</span><span class="n">e</span>
+</code></pre></div></div>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">➜</span>  <span class="nt">Encoding</span> <span class="nt">git</span><span class="o">:(</span><span class="nt">master</span><span class="o">)</span> <span class="nt">xxd</span> <span class="nt">-b</span> <span class="nt">abcABC_UTF8</span><span class="nc">.txt</span>
+<span class="err">00000000</span><span class="o">:</span> <span class="err">01100001</span> <span class="err">01100010</span> <span class="err">01100011</span> <span class="err">01000001</span> <span class="err">01000010</span> <span class="err">01000011</span>  <span class="nt">abcABC</span>
+<span class="err">00000006</span><span class="o">:</span> <span class="err">11100100</span> <span class="err">10111101</span> <span class="err">10100000</span> <span class="err">11100101</span> <span class="err">10100101</span> <span class="err">10111101</span>  <span class="o">......</span>
+<span class="err">0000000</span><span class="nt">c</span><span class="o">:</span> <span class="err">11000010</span> <span class="err">10101110</span>                                      <span class="o">..</span>
+</code></pre></div></div>
+
+<p>以上为“abcABC你好®”的UTF-8的编码数据，“abcABC”依然按照ASCII的编码方式采用单字节，0开头：01100001 01100010 01100011 01000001 01000010 01000011
+ “你”采用三字节编码：11100100 10111101 10100000
+ “好”也是三字节编码：11100101 10100101 10111101
+ “®”为双字节编码：11000010 10101110</p>
+
+<h2 id="其他类型文件">其他类型文件</h2>
+
+<p>把文本文件之外的其他文件归为一类是因为这些文件并不是按字符进行的统一编码，每种类型的文件都有自己特定的编码方式。种类非常多，各有各的不同。此类文件通常习惯把文件最开始的几个字节作为文件类型的标识，比如：</p>
+
+<ul>
+  <li>JPEG (jpg)，文件头：FFD8FF</li>
+  <li>PNG (png)，文件头：89504E47</li>
+  <li>GIF (gif)，文件头：47494638</li>
+  <li>PDF(pdf)，文件头： 255044462D312E</li>
+  <li>AVI (avi)，文件头：41564920</li>
+  <li>ZIP Archive (zip)，文件头：504B0304</li>
+  <li>RAR Archive (rar)，文件头：52617221</li>
+</ul>
+
+<p>我们验证几个文件头：</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">ZIP</span>
+<span class="err">50</span> <span class="err">4</span><span class="nt">b</span> <span class="err">03</span> <span class="err">04</span>
+<span class="err">➜</span>  <span class="nt">Encoding</span> <span class="nt">git</span><span class="o">:(</span><span class="nt">master</span><span class="o">)</span> <span class="err">✗</span> <span class="nt">hexdump</span> <span class="nt">abcABC_UTF8</span><span class="nc">.txt.zip</span>
+<span class="err">0000000</span> <span class="err">50</span> <span class="err">4</span><span class="nt">b</span> <span class="err">03</span> <span class="err">04</span> <span class="err">14</span> <span class="err">00</span> <span class="err">08</span> <span class="err">00</span> <span class="err">08</span> <span class="err">00</span> <span class="nt">a5</span> <span class="nt">bc</span> <span class="nt">b0</span> <span class="err">4</span><span class="nt">c</span> <span class="err">00</span> <span class="err">00</span>
+<span class="err">0000010</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span> <span class="err">00</span> <span class="err">0</span><span class="nt">f</span> <span class="err">00</span> <span class="err">10</span> <span class="err">00</span> <span class="err">61</span> <span class="err">62</span>
+<span class="err">0000020</span> <span class="err">63</span> <span class="err">41</span> <span class="err">42</span> <span class="err">43</span> <span class="err">5</span><span class="nt">f</span> <span class="err">55</span> <span class="err">54</span> <span class="err">46</span> <span class="err">38</span> <span class="err">2</span><span class="nt">e</span> <span class="err">74</span> <span class="err">78</span> <span class="err">74</span> <span class="err">55</span> <span class="err">58</span> <span class="err">0</span><span class="nt">c</span>
+<span class="err">0000030</span> <span class="err">00</span> <span class="nt">d7</span> <span class="err">51</span> <span class="nt">fc</span> <span class="err">5</span><span class="nt">a</span> <span class="err">26</span> <span class="err">50</span> <span class="nt">fc</span> <span class="err">5</span><span class="nt">a</span> <span class="nt">f5</span> <span class="err">01</span> <span class="err">14</span> <span class="err">00</span> <span class="err">4</span><span class="nt">b</span> <span class="err">4</span><span class="nt">c</span> <span class="err">4</span><span class="nt">a</span>
+<span class="err">0000040</span> <span class="err">76</span> <span class="err">74</span> <span class="err">72</span> <span class="err">7</span><span class="nt">e</span> <span class="nt">b2</span> <span class="err">77</span> <span class="nt">c1</span> <span class="nt">d3</span> <span class="nt">a5</span> <span class="err">7</span><span class="nt">b</span> <span class="err">0</span><span class="nt">f</span> <span class="nt">ad</span> <span class="err">03</span> <span class="err">00</span> <span class="err">50</span> <span class="err">4</span><span class="nt">b</span>
+</code></pre></div></div>
+
+<pre><code class="language-undefined">JPG
+ff d8 ff
+➜  Encoding git:(master) ✗ hexdump jpg.jpg|head -100
+0000000 ff d8 ff e0 00 10 4a 46 49 46 00 01 01 00 00 c8
+0000010 00 c8 00 00 ff e1 00 98 45 78 69 66 00 00 4d 4d
+0000020 00 2a 00 00 00 08 00 06 01 06 00 03 00 00 00 01
+0000030 00 02 00 00 01 12 00 03 00 00 00 01 00 01 00 00
+0000040 01 1a 00 05 00 00 00 01 00 00 00 56 01 1b 00 05
+0000050 00 00 00 01 00 00 00 5e 01 28 00 03 00 00 00 01
+0000060 00 02 00 00 87 69 00 04 00 00 00 01 00 00 00 66
+0000070 00 00 00 00 00 00 00 c8 00 00 00 01 00 00 00 c8
+</code></pre>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PDF
+25 50 44 46 2d 31 2e
+➜  Encoding git:<span class="o">(</span>master<span class="o">)</span> ✗ hexdump pdf.pdf|head <span class="nt">-100</span>
+0000000 25 50 44 46 2d 31 2e 33 0a 25 c4 e5 f2 e5 eb a7
+0000010 f3 a0 d0 c4 c6 0a 34 20 30 20 6f 62 6a 0a 3c 3c
+0000020 20 2f 4c 65 6e 67 74 68 20 35 20 30 20 52 20 2f
+0000030 46 69 6c 74 65 72 20 2f 46 6c 61 74 65 44 65 63
+0000040 6f 64 65 20 3e 3e 0a 73 74 72 65 61 6d 0a 78 01
+0000050 65 8f <span class="nb">cd </span>0a c2 40 0c 84 ef 7d 8a 39 ea c1 75 b3
+</code></pre></div></div>
+
+<h2 id="base64">Base64</h2>
+
+<p>Base64并不会用来进行文件的编码，但是开发过程中会经常用到。这里也单独介绍一下。</p>
+
+<p>简单讲Base64编码是从二进制到字符的过程，可以把二进制数据编码为可见的字符数据。可以用作HTTP POST和HTTP GET URL中的参数。</p>
+
+<p>Base64编码后的数据是一个字符串，其中包含的字符为：A-Z、a-z、0-9、+、/共64个字符：26 + 26 + 10 + 1 + 1 = 64 另外还有一个补位用的填充字符“=”。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Base</th>
+      <th>64</th>
+      <th>码</th>
+      <th>表</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0(A)</td>
+      <td>10(Q)</td>
+      <td>20(g)</td>
+      <td>30(w)</td>
+    </tr>
+    <tr>
+      <td>1(B)</td>
+      <td>11(R)</td>
+      <td>21(h)</td>
+      <td>31(x)</td>
+    </tr>
+    <tr>
+      <td>2(C)</td>
+      <td>12(S)</td>
+      <td>22(i)</td>
+      <td>32(y)</td>
+    </tr>
+    <tr>
+      <td>3(D)</td>
+      <td>13(T)</td>
+      <td>23(j)</td>
+      <td>33(z)</td>
+    </tr>
+    <tr>
+      <td>4(E)</td>
+      <td>14(U)</td>
+      <td>24(k)</td>
+      <td>34(0)</td>
+    </tr>
+    <tr>
+      <td>5(F)</td>
+      <td>15(V)</td>
+      <td>25(l)</td>
+      <td>35(1)</td>
+    </tr>
+    <tr>
+      <td>6(G)</td>
+      <td>16(W)</td>
+      <td>26(m)</td>
+      <td>36(2)</td>
+    </tr>
+    <tr>
+      <td>7(H)</td>
+      <td>17(X)</td>
+      <td>27(n)</td>
+      <td>37(3)</td>
+    </tr>
+    <tr>
+      <td>8(I)</td>
+      <td>18(Y)</td>
+      <td>28(o)</td>
+      <td>38(4)</td>
+    </tr>
+    <tr>
+      <td>9(J)</td>
+      <td>19(Z)</td>
+      <td>29(p)</td>
+      <td>39(5)</td>
+    </tr>
+    <tr>
+      <td>a(K)</td>
+      <td>1a(a)</td>
+      <td>2a(q)</td>
+      <td>3a(6)</td>
+    </tr>
+    <tr>
+      <td>b(L)</td>
+      <td>1b(b)</td>
+      <td>2b(r)</td>
+      <td>3b(7)</td>
+    </tr>
+    <tr>
+      <td>c(M)</td>
+      <td>1c(c)</td>
+      <td>2c(s)</td>
+      <td>3c(8)</td>
+    </tr>
+    <tr>
+      <td>d(N)</td>
+      <td>1d(d)</td>
+      <td>2d(t)</td>
+      <td>3d(9)</td>
+    </tr>
+    <tr>
+      <td>e(O)</td>
+      <td>1e(e)</td>
+      <td>2e(u)</td>
+      <td>3e(+)</td>
+    </tr>
+    <tr>
+      <td>f(P)</td>
+      <td>1f(f)</td>
+      <td>2f(v)</td>
+      <td>3f(/)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>总共64个字符需要用6位来表示，表示成数值为0~63
+ 我们还是用“abcABC”来看一下编码的过程：
+ “abcABC”对应的ASCII码为：</p>
+
+<pre><code class="language-undefined">01100001 01100010 01100011 01000001 01000010 01000011  abcABC
+</code></pre>
+
+<p>总共 8 * 6 = 48位，转换为6位一个字节48 = 6 * 8</p>
+
+<p>按照6位一个字节分割之后：</p>
+
+<pre><code class="language-undefined">011000 010110 001001 100011 010000 010100 001001 000011
+</code></pre>
+
+<p>转为16进制：</p>
+
+<pre><code class="language-undefined">18 16 9 23 10 14 9 3
+</code></pre>
+
+<p>对应到码表：</p>
+
+<pre><code class="language-undefined">YWJjQUJD
+</code></pre>
+
+<p>Base64一个应用</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">!</span><span class="p">[</span><span class="no">Pic</span> <span class="no">Base64</span> <span class="no">Encoding</span><span class="p">][</span><span class="n">test_img</span><span class="p">]</span>
+<span class="p">[</span><span class="n">test_img</span><span class="p">]:</span> <span class="n">data</span><span class="ss">:image</span><span class="o">/</span><span class="n">png</span><span class="p">;</span><span class="n">base64</span><span class="p">,</span><span class="n">iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAllBMVEX6VW7</span><span class="o">/</span><span class="sr">//</span><span class="o">/</span><span class="mi">6</span><span class="no">XnX</span><span class="o">/</span><span class="sr">/P36V2/</span><span class="mi">6</span><span class="no">TWf6UGr</span><span class="o">/</span><span class="mi">9</span><span class="no">PX6SmX</span><span class="o">/</span><span class="mi">4</span><span class="o">+</span><span class="n">f</span><span class="o">/+</span><span class="sr">/v/</span><span class="mi">2</span><span class="o">+</span><span class="no">H</span><span class="o">+</span><span class="mi">2</span><span class="no">N3</span><span class="o">/</span><span class="mi">9</span><span class="n">vf</span><span class="o">/</span><span class="mi">7</span><span class="n">e</span><span class="o">/</span><span class="sr">/5ur/</span><span class="mi">3</span><span class="o">+</span><span class="no">T6SGP</span><span class="o">/+</span><span class="no">Pn6UWv</span><span class="o">/</span><span class="mi">8</span><span class="n">fP</span><span class="o">/</span><span class="mi">7</span><span class="o">/</span><span class="no">L</span><span class="o">/</span><span class="mi">6</span><span class="n">u3</span><span class="o">/+</span><span class="n">fr</span><span class="o">+</span><span class="mi">0</span><span class="no">Nf</span><span class="o">+</span><span class="n">zdX6RWD</span><span class="o">/</span><span class="mi">6</span><span class="no">Ov6ZHv7Zn3</span><span class="o">/</span><span class="mi">4</span><span class="n">eX6NlT</span><span class="o">+</span><span class="n">xs7</span><span class="o">+</span><span class="n">w8z</span><span class="o">+</span><span class="mi">1</span><span class="n">dv</span><span class="o">+</span><span class="n">ytL6O1j</span><span class="o">+</span><span class="mi">0</span><span class="n">tn9usX6PVr7eo37cIX8qLX9vsj9tL</span><span class="o">/</span><span class="mi">8</span><span class="n">k6P8nKv8iJr6a4H5Lk3nriMCAAACpUlEQVRIx</span><span class="o">+</span><span class="mi">3</span><span class="no">X2Y6bMBSAYQxmsw02a0xI2Mk201ne</span><span class="o">/+</span><span class="no">VKHJJohgNRJzeV2v8WfTpCgHzQtvqP22pPpT9B</span><span class="o">/+</span><span class="no">PnsGlal0y4WYzxvjOtIIjGrGlmt8cYwjgqjzvhNrvT6</span><span class="o">+</span><span class="mi">6</span><span class="n">lrtpM9g1jlFIhisK9JF4OZYQhXP5CqrSlBU8T2yMI6FcJ4f0RjbG6Z1S4PPWT2La9cEUMw7jpQwfgskJjdiUXsOyiCTZN9349W8CJ5kxxxNG1fgnHGMDWbbKxONk1zZ</span><span class="o">/</span><span class="n">j2rEWMWuEm</span><span class="o">/</span><span class="n">vJ4MiI7qUn7cHktqGi4Pk4</span><span class="o">+</span><span class="n">jybGEPIiGm7wzA2VIgco8217SX9I2NyqKpZ</span><span class="o">/</span><span class="no">QDrZaBa3</span><span class="o">+</span><span class="n">qcimVDshcViIsrXm3X2rccXRZM5bYzmKhg3HCqyjMQC7RSoRDCLBUqX87gUIU8CFPfVcUNiCnyVMiGsIi5ymZ</span><span class="o">/</span><span class="n">jAO98HKVR2ewrUIxhN3QVxEKfhgMxSqSbADMSaJCYgYnqtCHcG7EKlSAuEG</span><span class="o">+</span><span class="n">ykshnF5vygVxT1KVnW</span><span class="o">+</span><span class="no">CKfYXcSRDrko4hJPrs</span><span class="o">+</span><span class="no">AgzmxX5RcwDlUzuE2EKhcQjq8vbw7iKqUql8KYqEBsRTVnKtFA2L5</span><span class="o">+</span><span class="n">sCmIX4peyizLWIa7YCjClyMscBxnrz3AO1pXmZSSZR</span><span class="o">+</span><span class="no">RPjRoZfUha</span><span class="o">/</span><span class="no">MAv7aNvzLIkH3OeyvPuHyPaSOrlqAxH8SnHH3tWGLcbUKS8oKxZRzsbsowDLLyUBqsgzVFhaAsk8t4zb7iMET15</span><span class="o">+</span><span class="n">cr4i6E4YPujr0Vej</span><span class="o">+</span><span class="n">gZMQGGktwMMXmBNseCe38gjMCH7FjZfsde7Fn</span><span class="o">+</span><span class="mi">6</span><span class="n">nCsorRWN9F0FoxwXacjLiv2X2twPBCM80I7djPXcHaHKneyplV6lBz</span><span class="o">/</span><span class="mi">1</span><span class="n">w6lHPO3UJQyhqZtVW9O9XUz6tDaWF4iev2EZ7PMbG27zRwiVPDTed75i3LdMwI</span><span class="o">/</span><span class="mi">5</span><span class="no">Vb77</span><span class="o">+</span><span class="no">Bn</span><span class="o">+</span><span class="n">mp38HfQN1OMU</span><span class="o">+</span><span class="n">bDU4AAAAASUVORK5CYII</span><span class="o">=</span>
+</code></pre></div></div>
+
+<p>把图片序列化之后用Base64编码得到的数据可以直接嵌入到Html标签或者Markdown文档中来显示，受本文所用的Markdown解析器的限制，这里只能看到编码后的结果不能解析为图片。</p>
+
+<p>reference:</p>
+
+<p>1 https://www.jianshu.com/p/7797946c71e3</p>
+:ET

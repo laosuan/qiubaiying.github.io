@@ -1,0 +1,327 @@
+I"�S<p>经常需要在服务器端安装或者复制一些东西，等待时间较长的情况下如果突然遇到断开连接造成任务终端，既糟心又浪费时间，之前尝试用screen开启保留窗口解决，但体验实在不敢恭维以至于很多时候忘记用，下面推荐一款既能保留会话内容又方便好看的工具–tmux</p>
+
+<p>在Linux中安装：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install tmux
+</code></pre></div></div>
+
+<p>使用（打开上次的会话）：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmux a
+</code></pre></div></div>
+
+<h2 id="编辑tmuxconf-配置一个beatiful的云终端">编辑~/.tmux.conf, 配置一个beatiful的云终端</h2>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">bind -r J resize-pane -D </span><span class="m">5</span>
+<span class="s">bind -r K resize-pane -U </span><span class="m">5</span>
+<span class="s">bind -r L resize-pane -R </span><span class="m">5</span>
+<span class="c1"># 设置前缀键，默认为Ctrl+n</span>
+<span class="s">set -g prefix C-n</span>
+<span class="c1"># 释放之前的Ctrl-b前缀快捷键</span>
+<span class="s">unbind C-b</span>
+<span class="c1">#jtmux有一个延时以方便用户按键组合，默认有点长。这里设置为1秒钟</span>
+<span class="s">set -s escape-time </span><span class="m">1</span>
+<span class="c1"># 设置动态加载tmux配置文件的快捷键</span>
+<span class="s">bind r source-file ~/.tmux.conf \; display "Configuration Reloaded"</span>
+<span class="c1"># 设置窗口标签的前景及背景色</span>
+<span class="c1"># setw -g window-status-fg colour72</span>
+<span class="c1"># setw -g window-status-bg colour238</span>
+<span class="c1"># junegunn</span>
+<span class="s">set-window-option -g window-status-format '#[bg=colour238]#[fg=colour107]</span> <span class="c1">#I #[bg=colour239]#[fg=colour110] #[bg=colour240]#W#[bg=colour239]#[fg=colour195]#F#[bg=colour238] '</span>
+<span class="s">set-window-option -g window-status-current-format '#[bg=colour236]#[fg=colour215,bold]</span> <span class="c1">#I:#[bg=colour235]#[fg=colour167] #[bg=colour234]#W#[bg=colour235]#[fg=colour195]#F#[bg=colour236] '</span>
+<span class="s">setw -g window-status-attr dim</span>
+<span class="c1"># 设置当前窗口标签的前景及背景色,所谓当前窗口标签会显示在状态栏中间</span>
+<span class="c1"># setw -g window-status-current-fg colour22</span>
+<span class="c1"># setw -g window-status-current-bg colour73</span>
+<span class="c1"># setw -g window-status-current-attr bright</span>
+<span class="c1"># 设置窗口分割的边框颜色</span>
+<span class="c1"># set -g pane-border-fg yellow</span>
+<span class="s">set -g pane-border-fg colour237</span>
+<span class="c1"># set -g pane-border-bg black</span>
+<span class="c1"># 设置当前窗口分割的边框颜色</span>
+<span class="c1"># set -g pane-active-border-fg green</span>
+<span class="s">set -g pane-active-border-fg colour240</span>
+<span class="c1"># set -g pane-active-border-bg yellow</span>
+<span class="c1"># 设置提示信息的前景及背景色, e.g, Reload</span>
+<span class="s">set -g message-fg colour168</span>
+<span class="s">set -g message-bg colour237</span>
+<span class="s">set -g message-attr bright</span>
+<span class="c1">#set -g set-titles-string '#T'</span>
+<span class="c1">###################  状态栏设置  ###############################</span>
+<span class="c1"># 以下色彩为mac环境下，Linux下可能需重新设置颜色</span>
+<span class="c1"># 设置状态栏前景色，背景色</span>
+<span class="c1">#set -g status-fg white</span>
+<span class="c1">#set -g status-bg black</span>
+<span class="c1"># 设置状态栏前景及背景色</span>
+<span class="s">set -g status-bg colour237</span>
+<span class="s">set -g status-fg colour68</span>
+<span class="c1"># 设置状态栏左部宽度  默认为10</span>
+<span class="s">set -g status-left-length </span><span class="m">45</span>
+<span class="c1"># 设置状态栏左部显示内容。</span>
+<span class="c1"># https://gitlab.com/gnachman/iterm2/issues/6666</span>
+<span class="c1"># set -g status-left "#[fg=colour252,bold,bg=colour243] 🌺  S: #S #[fg=colour250,bg=colour239] 🏵  W: #I #[fg=yellow,bg=colour237] ☘ #[fg=colour250,bg=colour237] P: #P#[default]"</span>
+<span class="c1"># set-option -g status-left '#[bg=colour72] #[bg=colour234] #[bg=colour235] #[bg=colour236]#[fg=colour185,bg=colour238] 🌺  S:#S #[fg=colour251,bg=colour239] 💻  #h '</span>
+<span class="c1"># set-option -g status-left '#[bg=colour72] #[bg=colour236] #[bg=colour237]#[fg=colour185,bg=colour238] 🌺  S:#S #[fg=colour251,bg=colour239] 💻  #h '</span>
+<span class="s">set-option -g status-left '#[bg=colour72]</span> <span class="c1">#[bg=colour236] #[bg=colour237]#[fg=colour185,bg=colour238]  S:#S #[fg=colour251,bg=colour239] h:#h '</span>
+<span class="c1"># 设置状态栏右部宽度</span>
+<span class="s">set -g status-right-length </span><span class="m">48</span>
+<span class="c1"># 设置状态栏右部内容，这里设置为时间信息</span>
+<span class="c1"># macOS</span>
+<span class="c1"># set -g status-right "#[fg=colour251,bg=colour239] 🗓  %b-%d #[fg=colour251,bg=colour238] ⏱  %R #[fg=colour251,bg=colour237] 🐳  #(ifconfig | grep 'inet.*netmask.*broadcast' | awk '{print $2}') #[bg=colour236] #[bg=colour235] #[bg=colour72] "</span>
+<span class="s">set -g status-right "#[fg=colour251,bg=colour239]%b-%d</span> <span class="c1">#[fg=colour251,bg=colour238] %R #[fg=colour251,bg=colour237] #(ifconfig | grep 'inet.*netmask.*broadcast' | awk '{print $2}') #[bg=colour236] #[bg=colour235] #[bg=colour72] "</span>
+<span class="s">set -g status-right "#[fg=colour251,bg=colour239]%b-%d</span> <span class="c1">#[fg=colour251,bg=colour238] %R #[fg=colour251,bg=colour237] #(ifconfig | grep 'inet.*netmask.*broadcast' | awk '{print $2}') #[bg=colour236] #[bg=colour235] #[bg=colour72] "</span>
+<span class="s">set-option -g status-left "#[fg=colour248, bg=colour241] S:#S</span> <span class="c1">#[fg=colour241, bg=colour237, nobold, noitalics, nounderscore]"</span>
+<span class="s">set-option -g status-right "#[fg=colour239, bg=colour237, nobold, nounderscore, noitalics]#[fg=colour246,bg=colour239] %Y-%m-%d  %H:%M</span> <span class="c1">#[fg=colour248, bg=colour239, nobold, noitalics, nounderscore]#[fg=colour237, bg=colour248] #(ifconfig | grep 'inet.*netmask.*broadcast' | awk '{print $2}') "</span>
+<span class="c1"># Ubuntu</span>
+<span class="c1"># set -g status-right "#[fg=colour251,bg=colour239] 🗓  %b-%d #[fg=colour251,bg=colour238] ⏱  %R #[fg=colour251,bg=colour237] 🐳  #(ifconfig | grep 'inet addr:192' | cut -d: -f2 | awk '{print $1}') #[bg=colour236] #[bg=colour72] "</span>
+<span class="c1"># 窗口信息居中显示</span>
+<span class="s">set -g status-justify centre</span>
+<span class="c1"># 设置状态栏更新时间 每60秒更新一次，默认是15秒更新</span>
+<span class="s">set -g status-interval </span><span class="m">60</span>
+<span class="c1"># https://github.com/neovim/neovim/wiki/FAQ#cursor-shape-doesnt-change-in-tmux</span>
+<span class="s">set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'</span>
+<span class="c1"># Move status bar to the top</span>
+<span class="c1"># set-option -g status-position top</span>
+<span class="s">set-option -g status-position bottom</span>
+<span class="s">set-option -g status on</span>
+<span class="s">set-option -g status-interval </span><span class="m">2</span>
+<span class="s">set-option -g status-justify "centre"</span>
+<span class="s">set-option -g status-left-length </span><span class="m">60</span>
+<span class="s">set-option -g status-right-length </span><span class="m">90</span>
+<span class="s">set-option -g status-left "#(~/tmux-powerline/powerline.sh left)"</span>
+<span class="s">set-option -g status-right "#(~/tmux-powerline/powerline.sh right)"</span>
+<span class="s">set-window-option -g window-status-current-format "#[fg=colour235, bg=colour27]⮀#[fg=colour255, bg=colour27]</span> <span class="c1">#I ⮁ #W #[fg=colour27, bg=colour235]⮀"</span>
+<span class="s">bind C-[ run '~/tmux-powerline/mute_powerline.sh left'</span><span class="err">		</span><span class="s"># Mute left statusbar.</span>
+<span class="s">bind C-] run '~/tmux-powerline/mute_powerline.sh right'</span><span class="err">		</span><span class="s"># Mute right statusbar.</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>ps：在iPad pro下载blink使用，体验相当好。</p>
+  <h2 id="常用快捷键">常用快捷键：</h2>
+  <ul>
+    <li><strong>前缀键：</strong>默认为Ctrl+b， 上述配置已改为Ctrl+n</li>
+  </ul>
+</blockquote>
+
+<p>表一：系统指令。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">前缀</th>
+      <th style="text-align: center">指令</th>
+      <th style="text-align: center">描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">?</code></td>
+      <td style="text-align: center"><strong>显示快捷键帮助文档</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">d</code></td>
+      <td style="text-align: center">断开当前会话</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">D</code></td>
+      <td style="text-align: center">选择要断开的会话</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+z</code></td>
+      <td style="text-align: center">挂起当前会话</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">r</code></td>
+      <td style="text-align: center">强制重载当前会话</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">s</code></td>
+      <td style="text-align: center">显示会话列表用于选择并切换</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">:</code></td>
+      <td style="text-align: center">进入命令行模式，此时可直接输入<code class="language-plaintext highlighter-rouge">ls</code>等命令</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">[</code></td>
+      <td style="text-align: center">进入复制模式，按<code class="language-plaintext highlighter-rouge">q</code>退出</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">]</code></td>
+      <td style="text-align: center">粘贴复制模式中复制的文本</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">~</code></td>
+      <td style="text-align: center">列出提示信息缓存</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>表二：窗口（window）指令。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">前缀</th>
+      <th style="text-align: center">指令</th>
+      <th style="text-align: center">描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">c</code></td>
+      <td style="text-align: center"><strong>新建窗口</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">&amp;</code></td>
+      <td style="text-align: center">关闭当前窗口（关闭前需输入<code class="language-plaintext highlighter-rouge">y</code> or <code class="language-plaintext highlighter-rouge">n</code>确认）</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">0~9</code></td>
+      <td style="text-align: center">切换到指定窗口</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">p</code></td>
+      <td style="text-align: center">切换到上一窗口</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">n</code></td>
+      <td style="text-align: center"><strong>切换到下一窗口</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">w</code></td>
+      <td style="text-align: center">打开窗口列表，用于且切换窗口</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">,</code></td>
+      <td style="text-align: center">重命名当前窗口</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">.</code></td>
+      <td style="text-align: center">修改当前窗口编号（适用于窗口重新排序）</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">f</code></td>
+      <td style="text-align: center">快速定位到窗口（输入关键字匹配窗口名称）</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>表三：面板（pane）指令。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">前缀</th>
+      <th style="text-align: center">指令</th>
+      <th style="text-align: center">描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">"</code></td>
+      <td style="text-align: center"><strong>当前面板上下一分为二，下侧新建面板</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">%</code></td>
+      <td style="text-align: center"><strong>当前面板左右一分为二，右侧新建面板</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">x</code></td>
+      <td style="text-align: center"><strong>关闭当前面板（关闭前需输入<code class="language-plaintext highlighter-rouge">y</code> or <code class="language-plaintext highlighter-rouge">n</code>确认）</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">z</code></td>
+      <td style="text-align: center"><strong>最大化当前面板，再重复一次按键后恢复正常（v1.8版本新增）</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">!</code></td>
+      <td style="text-align: center"><strong>将当前面板移动到新的窗口打开（原窗口中存在两个及以上面板有效）</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">;</code></td>
+      <td style="text-align: center"><strong>切换到最后一次使用的面板</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">q</code></td>
+      <td style="text-align: center">显示面板编号，在编号消失前输入对应的数字可切换到相应的面板</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">{</code></td>
+      <td style="text-align: center">向前置换当前面板</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">}</code></td>
+      <td style="text-align: center">向后置换当前面板</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+o</code></td>
+      <td style="text-align: center">顺时针旋转当前窗口中的所有面板</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">方向键</code></td>
+      <td style="text-align: center">移动光标切换面板</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">o</code></td>
+      <td style="text-align: center"><strong>选择下一面板</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">空格键</code></td>
+      <td style="text-align: center">在自带的面板布局中循环切换</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Alt+方向键</code></td>
+      <td style="text-align: center">以5个单元格为单位调整当前面板边缘</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+方向键</code></td>
+      <td style="text-align: center">以1个单元格为单位调整当前面板边缘（Mac下被系统快捷键覆盖）</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">Ctrl+n</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">t</code></td>
+      <td style="text-align: center">显示时钟</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="tmux使用教程">tmux使用教程：</h2>
+
+<ul>
+  <li><a href="http://louiszhai.github.io/2017/09/30/tmux/">Tmux使用手册</a></li>
+  <li><a href="https://www.cnblogs.com/kaiye/p/6275207.html/">十分钟学会 tmux</a></li>
+</ul>
+:ET

@@ -1,0 +1,165 @@
+I"L<h1 id="欢迎使用-ios-版-mweb">欢迎使用 iOS 版 MWeb</h1>
+
+<p>MWeb 是专业的 Markdown 写作、记笔记、静态博客生成软件，目前已支持 Mac，iPad 和 iPhone。MWeb 所使用的 Markdown 语法为 Github Flavored Markdown，简称 GFM，这是一种最为广泛使用的 Markdown 语法之一。如果你不知道什么是 Markdown，建议看一下附带的 <a href="Markdown Syntax.md">Markdown 语法官方说明</a> 文档。GFM 除了支持官方的语法外，还扩展了不少语法。</p>
+
+<h2 id="ios-版-mweb-的主要界面和功能">iOS 版 MWeb 的主要界面和功能</h2>
+
+<p><img src="media/mweb-ios-3.png" alt="mweb-ios-3" /></p>
+
+<p>如上图为 iOS 版 MWeb 的主要界面和功能。需要说明的是，iOS 版本 MWeb 目前仅支持查看、编辑、新增 MWeb for Mac 文档库的文档，管理分类、删除等等都不支持。</p>
+
+<h2 id="gfm-语法简介和-mweb-所支持的扩展语法">GFM 语法简介和 MWeb 所支持的扩展语法</h2>
+
+<h3 id="回车转为换行">回车转为换行</h3>
+
+<p>官方的语法规定结尾加 2 个以上空格加换行才会转成换行，也就是 <code class="language-plaintext highlighter-rouge">&lt;br /&gt;</code> 标签。MWeb 中有个选项可以直接把换行转成 <code class="language-plaintext highlighter-rouge">&lt;br /&gt;</code>，不用加上 2 个以上空格，这个选项默认是开启的。如果要关闭，请在设置页面关闭。</p>
+
+<h3 id="任务列表task-lists">任务列表（Task lists）</h3>
+
+<p>Markdown 语法：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- [ ] 任务一 未做任务 `- + 空格 + [ ]`
+- [x] 任务二 已做任务 `- + 空格 + [x]`
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />任务一 未做任务 <code class="language-plaintext highlighter-rouge">- + 空格 + [ ]</code></li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />任务二 已做任务 <code class="language-plaintext highlighter-rouge">- + 空格 + [x]</code></li>
+</ul>
+
+<h3 id="图片大小及对齐">图片大小及对齐</h3>
+
+<p>官方和 GFM 都不支持图片大小控制及对齐设置，MWeb 引入的特别的语法来设置图片宽度和居左、居右、居中。如：<code class="language-plaintext highlighter-rouge">![图片说明-w450](pic.jpg)</code> 这样表示设置图片宽度为 450。其中 -w450 为设置语法，生成 HTML 时会自动移除。w 表示设置宽度，居左为：-l400，居右为 -r400，居中为 -c400，比如设置一图片宽度为 500 并居中：<code class="language-plaintext highlighter-rouge">![-c500](pic.jpg)</code>。 可以看出，MWeb 引入的语法的特点是兼容原来的语法和仅支持设置宽度。</p>
+
+<h3 id="多行或者一段代码">多行或者一段代码</h3>
+
+<p>Markdown 语法：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>```js
+function fancyAlert(arg) {
+  if(arg) {
+    $.facebox({div:'#foo'})
+  }
+
+}
+```
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">fancyAlert</span><span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">$</span><span class="p">.</span><span class="nx">facebox</span><span class="p">({</span><span class="na">div</span><span class="p">:</span><span class="dl">'</span><span class="s1">#foo</span><span class="dl">'</span><span class="p">})</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这个语法目前在 MWeb 中使用，必须前后空一行，才会正确解析。我觉得，在写 Markdown 文档过程中，运用空行很有必要，基本上，块级元素（标题、列表、引用、代码块、表格、段落等），都建议前后空一行。</p>
+
+<h3 id="表格">表格</h3>
+
+<p>Markdown 语法：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>第一格表头 | 第二格表头
+--------- | -------------
+内容单元格 第一列第一格 | 内容单元格第二列第一格
+内容单元格 第一列第二格 多加文字 | 内容单元格第二列第二格
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>第一格表头</th>
+      <th>第二格表头</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>内容单元格 第一列第一格</td>
+      <td>内容单元格第二列第一格</td>
+    </tr>
+    <tr>
+      <td>内容单元格 第一列第二格 多加文字</td>
+      <td>内容单元格第二列第二格</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="删除线">删除线</h3>
+
+<p>Markdown 语法：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>加删除线像这样用： ~~删除这些~~
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<p>加删除线像这样用： <del>删除这些</del></p>
+
+<h3 id="latex">LaTeX</h3>
+
+<p>Markdown 语法：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>块级公式：
+$$	x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+
+\\[ \frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} =
+1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}}
+{1+\frac{e^{-8\pi}} {1+\ldots} } } } \\]
+
+行内公式： $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$
+</code></pre></div></div>
+
+<p>效果如下（在设置页面中启用 LaTeX 才会看到效果，默认为启用）：</p>
+
+<p>块级公式：
+\(x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}\)</p>
+
+<p>\[ \frac{1}{\Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{\frac25 \pi}} =
+1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {1+\frac{e^{-6\pi}}
+{1+\frac{e^{-8\pi}} {1+\ldots} } } } \]</p>
+
+<p>行内公式： $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$</p>
+
+<h3 id="脚注footnote">脚注（Footnote）</h3>
+
+<p>Markdown 语法：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>这是一个脚注：[^sample_footnote]
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<p>这是一个脚注：<sup id="fnref:sample_footnote" role="doc-noteref"><a href="#fn:sample_footnote" class="footnote" rel="footnote">1</a></sup></p>
+
+<h3 id="注释和阅读更多">注释和阅读更多</h3>
+
+<!-- comment -->
+<!-- more -->
+
+<p><strong>注</strong> 阅读更多的功能只用在文档库生成静态网站或发布到 Wordpress 博客时，插入时注意要后空一行。</p>
+
+<h3 id="toc">TOC</h3>
+
+<p>Markdown 语法：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[TOC]
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<p>[TOC]</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:sample_footnote" role="doc-endnote">
+      <p>这里是脚注信息 <a href="#fnref:sample_footnote" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+:ET

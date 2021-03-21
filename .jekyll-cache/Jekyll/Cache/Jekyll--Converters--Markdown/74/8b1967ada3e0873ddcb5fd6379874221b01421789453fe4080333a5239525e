@@ -1,0 +1,10 @@
+I"8<h2 id="mongodb性能优化迁移">mongodb性能优化，迁移</h2>
+
+<h2 id="mongo-client升级springboot相关依赖升级pom依赖管理">mongo-client升级，springboot相关依赖升级，pom依赖管理</h2>
+
+<p>项目中mongo client的版本是2.11版本，对应的秘钥加密算法是MONGODB-CR加密机制，server端的版本为3.0.3，默认的加密机制不兼容，导致项目启动报错。 虽可将server端配置改为MONGODB-CR加密机制，但数据库管理软件Studio 3T 只支持较新的SCRAM-SHA-256加密机制，项目中的client是绑定在axon框架内的，升级困难，故暂时没有找到好的加密操作。 （mongdb在3.0版本后默认的加密算法换成了SCRAM-SHA-256，4.0版本后彻底不支持老的MONGODB-CR加密算法）</p>
+
+<h2 id="rn异步请求优化前端渲染速度">RN异步请求，优化前端渲染速度</h2>
+
+<h2 id="广发易淘金app股哥百科投资资讯信息流推荐系统从零到一搭建全过程">广发易淘金APP股哥百科投资资讯信息流推荐系统，从零到一搭建全过程</h2>
+:ET

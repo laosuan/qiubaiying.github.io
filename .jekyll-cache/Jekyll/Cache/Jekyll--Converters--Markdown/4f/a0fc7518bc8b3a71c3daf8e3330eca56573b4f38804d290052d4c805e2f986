@@ -1,0 +1,29 @@
+I"�<p>前言</p>
+
+<p>发版的时候pineline buiild maven报错:ERROR: Job failed: exit code 1,由于没有报具体出错的原因,只能根据最后执行的命令来推测,排查十分困难,故找了个本地调试ci的方法,具体如下:</p>
+
+<h2 id="1-安装gitlab-runner">1 安装GitLab Runner</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew install gitlab-runner
+
+brew services start gitlab-runner
+</code></pre></div></div>
+
+<h2 id="2-修改ci脚本">2 修改ci脚本</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#1 如需调试中间步骤,可以把之前步骤的
+</code></pre></div></div>
+
+<h2 id="2-运行job">2 运行job</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab-runner exec docker 容器名
+</code></pre></div></div>
+
+<p><strong>refference:</strong></p>
+
+<p><a href="https://docs.gitlab.com/runner/install/osx.html">1.Install GitLab Runner on macOS</a></p>
+
+<p>https://docs.gitlab.com/runner/commands/README.html#limitations-of-gitlab-runner-exec</p>
+
+<p>https://www.lullabot.com/articles/debugging-jobs-gitlab-ci</p>
+:ET

@@ -1,0 +1,35 @@
+I"�<p>本文旨在搭建一个web环境运行支持多语言的开发环境，方便在多个终端(mac,ipadpro…)同步一致的开发环境与体验，适合小型项目&amp;demo的开发和简单调试。</p>
+
+<h2 id="1-编写docker-file安装开发环境所需依赖">1 编写Docker file，安装开发环境所需依赖</h2>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="s">1 FROM codercom/code-server:latest</span>
+  <span class="m">2</span>
+  <span class="s">3 CMD sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak ;</span>
+  <span class="s">4 CMD sudo echo " " &gt; /etc/apt/sources.list ;</span>
+  <span class="s">5 CMD sudo echo "deb http://mirrors.aliyun.com/debian jessie main" &gt;&gt; /etc/apt/sources.list ;</span>
+  <span class="s">6 CMD sudo echo "deb http://mirrors.aliyun.com/debian jessie-updates main" &gt;&gt; /etc/apt/sources.list ;</span>
+  <span class="s">7 RUN sudo apt-get clean</span>
+  <span class="s">8 RUN sudo apt-get update</span>
+  <span class="s">9 RUN sudo apt-get install -y maven</span>
+ <span class="s">10 CMD echo "installed maven"</span>
+ <span class="s">11 RUN sudo apt-get install -y npm</span>
+ <span class="m">12</span> <span class="c1">#RUN sudo npm install -g @vue/cli@3.0.1</span>
+ <span class="s">13 CMD echo "intalled npm"</span>
+ <span class="s">14 ENV DEBIAN_FRONTEND noninteractive</span>
+ <span class="s">15 RUN sudo apt-get -y install gcc g++ gdb gdbserver cmake mono-mcs python3 python3-pip&amp;&amp; \</span>
+ <span class="s">16     sudo rm -rf /var/lib/apt/lists/*</span>
+ <span class="m">17</span>
+ <span class="s">18 ENV JAVA_HOME /home/coder/.cache/jdk1.8.0_171</span>
+ <span class="s">19 ENV JRE_HOME $JAVA_HOME/jre</span>
+ <span class="s">20 ENV CLASSPATH .:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span>
+ <span class="s">21 RUN git config --global user.email "mike@liuxuan.work"</span>
+ <span class="s">22 RUN git config --global user.name "mike"</span>
+ <span class="s">23 RUN cd ~ &amp;&amp; echo 'http://account:secret@github.com' &gt; .git-credentials &amp;&amp; git config --global credential.helper store</span>
+</code></pre></div></div>
+
+<h2 id="2-构建container-运行容器">2 构建container, 运行容器</h2>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span><span class="o">=</span><span class="s2">"vscode:latest"</span> <span class="nb">.</span>
+docker run <span class="nt">-it</span> <span class="nt">--name</span><span class="o">=</span><span class="s1">'vscode'</span> <span class="nt">-e</span> <span class="s1">'PASSWORD=secret'</span> <span class="nt">-p</span> 8090:8080 <span class="nt">-p</span> 5000-5100:5000-5100 <span class="nt">-v</span> <span class="s2">"/usr/local/jdk1.8.0_171/:/opt/jdk/"</span> <span class="nt">-v</span> <span class="s2">"/usr/l    ocal/code-server/.local1:/home/coder/.local/share/code-server"</span>  <span class="nt">-v</span> <span class="s2">"/usr/local/code-server/projects:/home/coder/project"</span> <span class="nt">-v</span> <span class="s2">"/usr/local/code    -server/cache:/home/coder/.cache"</span> <span class="nt">-v</span> <span class="s2">"/usr/local/code-server/profile:/etc/profile"</span> <span class="nt">-v</span> <span class="s1">'/usr/local/code-server/repository:/home/coder/.m2/rep    ository'</span> <span class="nt">-v</span> <span class="s1">'/usr/local/code-server/settings.xml:/usr/share/maven/conf/settings.xml'</span> vscode:latest
+</code></pre></div></div>
+
+:ET

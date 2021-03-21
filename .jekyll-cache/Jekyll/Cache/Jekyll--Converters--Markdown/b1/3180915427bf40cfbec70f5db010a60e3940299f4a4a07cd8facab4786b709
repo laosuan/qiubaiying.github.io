@@ -1,0 +1,15 @@
+I"3<h2 id="快速搭建http代理服务">快速搭建http代理服务</h2>
+
+<h3 id="使用-tinyproxy-镜像">使用 <code class="language-plaintext highlighter-rouge">tinyproxy</code> 镜像：</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull endoffight/tinyproxydocker run -d --name='tinyproxy' -p 7777:8888 endoffight/tinyproxy ANY# 或docker run -d --name='tinyproxy' -p 7777:8888 endoffight/tinyproxy 64.120.119.108
+</code></pre></div></div>
+
+<ul>
+  <li>那么代理端口就是7777了</li>
+  <li><code class="language-plaintext highlighter-rouge">ANY</code> 的意思是所有 IP 都可以建立连接</li>
+  <li><code class="language-plaintext highlighter-rouge">ANY</code> 使用acl语法，所以 10.103.0.100 192.168.1.22/16都是可以的</li>
+  <li>保险的运行方式是先找到自己的 IP 地址，使用http://www.ip138.com/ or <strong>curl cip.cc</strong>，然后把 ANY 改为自己的 IP，比如自己的家里的地址为8.8.8.8，这样可以限制可建立连接的 IP</li>
+</ul>
+
+:ET

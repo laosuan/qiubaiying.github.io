@@ -1,0 +1,386 @@
+I"p_<p>前言</p>
+
+<p>当我们应用的接口不需要密钥既可访问时,我们的接口容易被人抓包,数据容易被人爬取. 当我们应用的接口没有限制访问频率,手机短信验证码等成本较高的服务容易被人恶意攻击.Kong是一款开源的云原生架构下的分布式 API 网关，其性能和可扩展性在同类组件中，表现都很优异.Kong 官方提供了很多直接可用的插件,本文详细记录了kong的部署搭建过程以及使用官方插件实现api权限控制,接口访问频率限制的功能.</p>
+
+<p>以下主要介绍kong的基本概念,部署配置,权限控制和限流的插件使用</p>
+
+<h1 id="1-基本概念">1 基本概念</h1>
+
+<p><img src="https://docs.konghq.com/assets/images/docs/getting-started-guide/Kong-GS-overview.png" alt="Features in getting started guide" /></p>
+
+<p><strong>Admin API(动态修改配置):</strong>Kong Gateway带有一个内部restfulapi，用于管理目的。API命令可以在集群中的任何节点上运行，并且配置将一致地应用于所有节点。</p>
+
+<p><strong>Consumers(用户,群组,版本)</strong>: Consumer的核心原则是您可以为其<strong>添加插件</strong>,从而自定义他的请求行为. 所以,或许您会有一个手机APP应用,并为他的每个版本都定义一个consumer, 又或者您有一个应用或几个应用,并为这些应用定义统一个consumer,这些都无所谓.</p>
+
+<p><strong>Routes(相当于nginx配置中的location,url匹配):</strong> 路由是进入kong的入口，为匹配的请求定义规则,在Kong中定义细粒度的入口点,从而引导您的访问到不同接口服务.</p>
+
+<p><strong>Service (相当于nginx配置中的server)</strong>:服务实体是您自己的每个上游服务的抽象。 Service 可以与下面的Route进行关联,一个Service可以有很多Route,匹配到的Route就会转发到Service中.</p>
+
+<p><strong>Plugins(相当于nginx配置中的脚本):</strong>插件提供了一个模块化的系统来修改和控制网关的功能。例如，为了保护您的API，您可能需要一个访问密钥，您可以使用keyauth插件设置该密钥。插件提供了广泛的功能，包括访问控制、缓存、速率限制、修改请求体、日志记录等等。</p>
+
+<h1 id="2-部署">2 部署</h1>
+
+<p>初始化数据库:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>git clone https://github.com/mrts/docker-postgresql-multiple-databases
+<span class="nb">cd </span>docker-postgresql-multiple-databases
+<span class="nb">sudo </span>docker build <span class="nt">-t</span><span class="o">=</span><span class="s2">"postgresql:multi"</span> <span class="nb">.</span>
+<span class="nb">sudo </span>docker run <span class="nt">--name</span><span class="o">=</span>pgtemp <span class="nt">-e</span> <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>kong <span class="nt">-e</span> <span class="nv">POSTGRES_MULTIPLE_DATABASES</span><span class="o">=</span>kong,konga <span class="nt">-v</span> <span class="s2">"</span><span class="nv">$PWD</span><span class="s2">/../data:/var/lib/postgresql/data"</span> postgresql:multi
+<span class="c">#可选择检查是否在初始化时成功创建两个数据库</span>
+<span class="c">#docker exec -it pgtemp sh </span>
+<span class="c">#psql kong kong</span>
+<span class="c">#postgres=# \l</span>
+<span class="nb">sudo </span>docker <span class="nb">rm</span> <span class="nt">-f</span> pgtemp
+</code></pre></div></div>
+
+<p>cd ../</p>
+
+<p>sudo touch docker-compose.yml</p>
+
+<p>配置docker-compose.yml:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.7'</span>
+
+<span class="na">volumes</span><span class="pi">:</span>
+  <span class="na">kong_data</span><span class="pi">:</span> <span class="pi">{}</span>
+
+<span class="na">networks</span><span class="pi">:</span>
+  <span class="na">kong-net</span><span class="pi">:</span>
+    <span class="na">external</span><span class="pi">:</span> <span class="no">false</span>
+
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">kong-migrations</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s2">"</span><span class="s">${KONG_DOCKER_TAG:-kong:latest}"</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s">kong migrations bootstrap</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">db</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">KONG_DATABASE</span><span class="pi">:</span> <span class="s">postgres</span>
+      <span class="na">KONG_PG_DATABASE</span><span class="pi">:</span> <span class="s">kong</span>
+      <span class="na">KONG_PG_HOST</span><span class="pi">:</span> <span class="s">db</span>
+      <span class="na">KONG_PG_USER</span><span class="pi">:</span> <span class="s">postgres</span>
+      <span class="na">KONG_PG_PASSWORD</span><span class="pi">:</span> <span class="s">密码</span>
+
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">kong-net</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">on-failure</span>
+    <span class="na">deploy</span><span class="pi">:</span>
+      <span class="na">restart_policy</span><span class="pi">:</span>
+        <span class="na">condition</span><span class="pi">:</span> <span class="s">on-failure</span>
+
+  <span class="na">kong-migrations-up</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s2">"</span><span class="s">${KONG_DOCKER_TAG:-kong:latest}"</span>
+    <span class="na">command</span><span class="pi">:</span> <span class="s">kong migrations up &amp;&amp; kong migrations finish</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">db</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">KONG_DATABASE</span><span class="pi">:</span> <span class="s">postgres</span>
+      <span class="na">KONG_PG_DATABASE</span><span class="pi">:</span> <span class="s">kong</span>
+      <span class="na">KONG_PG_HOST</span><span class="pi">:</span> <span class="s">db</span>
+      <span class="na">KONG_PG_USER</span><span class="pi">:</span> <span class="s">postgres</span>
+      <span class="na">KONG_PG_PASSWORD</span><span class="pi">:</span> <span class="s">密码</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">kong-net</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">on-failure</span>
+    <span class="na">deploy</span><span class="pi">:</span>
+      <span class="na">restart_policy</span><span class="pi">:</span>
+        <span class="na">condition</span><span class="pi">:</span> <span class="s">on-failure</span>
+
+  <span class="na">kong</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s2">"</span><span class="s">${KONG_DOCKER_TAG:-kong:latest}"</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s2">"</span><span class="s">${KONG_USER:-kong}"</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">db</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">KONG_ADMIN_LISTEN</span><span class="pi">:</span> <span class="s1">'</span><span class="s">0.0.0.0:8001'</span>
+      <span class="na">KONG_CASSANDRA_CONTACT_POINTS</span><span class="pi">:</span> <span class="s">db</span>
+      <span class="na">KONG_DATABASE</span><span class="pi">:</span> <span class="s">postgres</span>
+      <span class="na">KONG_PG_DATABASE</span><span class="pi">:</span> <span class="s">kong</span>
+      <span class="na">KONG_PG_HOST</span><span class="pi">:</span> <span class="s">db</span>
+      <span class="na">KONG_PG_USER</span><span class="pi">:</span> <span class="s">postgres</span>
+      <span class="na">KONG_PG_PASSWORD</span><span class="pi">:</span> <span class="s">密码</span>
+<span class="err">	</span>    <span class="na">KONG_LOG_LEVEL</span><span class="pi">:</span> <span class="s">debug</span>
+<span class="err">	</span>    <span class="na">KONG_REAL_IP_HEADER</span><span class="pi">:</span> <span class="s">X-Forwarded-For</span>
+      <span class="s">KONG_TRUSTED_IPS</span><span class="pi">:</span> <span class="s">172.20.0.1</span>
+
+    <span class="s">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">kong-net</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">8000:8000/tcp"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">0.0.0.1:8001:8001/tcp"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">8443:8443/tcp"</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">0.0.0.1:8444:8444/tcp"</span>
+    <span class="na">healthcheck</span><span class="pi">:</span>
+      <span class="na">test</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">CMD"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">kong"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">health"</span><span class="pi">]</span>
+      <span class="na">interval</span><span class="pi">:</span> <span class="s">10s</span>
+      <span class="na">timeout</span><span class="pi">:</span> <span class="s">10s</span>
+      <span class="na">retries</span><span class="pi">:</span> <span class="m">10</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">on-failure</span>
+    <span class="na">deploy</span><span class="pi">:</span>
+      <span class="na">restart_policy</span><span class="pi">:</span>
+        <span class="na">condition</span><span class="pi">:</span> <span class="s">on-failure</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">./logs:/usr/local/kong/logs</span>
+
+  <span class="na">konga</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">pantsel/konga</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">DB_ADAPTER</span><span class="pi">:</span> <span class="s">postgres</span>
+      <span class="na">DB_HOST</span><span class="pi">:</span> <span class="s">db</span>
+      <span class="na">DB_PORT</span><span class="pi">:</span> <span class="m">5432</span>
+      <span class="na">DB_DATABASE</span><span class="pi">:</span> <span class="s">konga</span>
+      <span class="na">DB_USER</span><span class="pi">:</span> <span class="s">progress</span>
+      <span class="na">DB_PASSWORD</span><span class="pi">:</span> <span class="s">密码</span>
+      <span class="na">NODE_ENV</span><span class="pi">:</span> <span class="s">${KONGA_ENV}</span>
+      <span class="na">KONGA_HOOK_TIMEOUT</span><span class="pi">:</span> <span class="m">10000</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">on-failure</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">8080:1337</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">db</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">kong-net</span>
+    
+  <span class="na">db</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">postgres:9.6</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">POSTGRES_USER=postgres</span>
+      <span class="pi">-</span> <span class="s">POSTGRES_PASSWORD=密码</span>
+    <span class="na">healthcheck</span><span class="pi">:</span>
+      <span class="na">test</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">CMD"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">pg_isready"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">-U"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">postgres"</span><span class="pi">]</span>
+      <span class="na">interval</span><span class="pi">:</span> <span class="s">30s</span>
+      <span class="na">timeout</span><span class="pi">:</span> <span class="s">30s</span>
+      <span class="na">retries</span><span class="pi">:</span> <span class="m">3</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">on-failure</span>
+    <span class="na">deploy</span><span class="pi">:</span>
+      <span class="na">restart_policy</span><span class="pi">:</span>
+        <span class="na">condition</span><span class="pi">:</span> <span class="s">on-failure</span>
+    <span class="na">stdin_open</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">tty</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">kong-net</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">5432:5432</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">./postgresql/data:/var/lib/postgresql/data</span>
+
+</code></pre></div></div>
+
+<p>启动:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo curl -L "https://github.com/docker/compose/releases/download/1.28.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo docker-copmose up
+</code></pre></div></div>
+
+<h1 id="3-konga管理ui界面介绍">3 konga管理UI界面介绍</h1>
+
+<p>demo地址:lab.liuxuan.tech</p>
+
+<p>登陆:kong kongkong</p>
+
+<h2 id="31-配置kong-admin-url">3.1 配置kong-admin url</h2>
+
+<p>konga管理控制台界面需要指定kong-admin url后才能正常工作,下面是配置的过程:</p>
+
+<p><strong>1 在konga管理后台的菜单列表点击CONNECTIONS</strong></p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-104154@2x.png" alt="QQ20210127-104154@2x" /></p>
+
+<p><strong>2 点击+NEW CONNECTIOIN按钮</strong></p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-104602@2x.png" alt="QQ20210127-104602@2x" /></p>
+
+<p><strong>3 填写kong-admin url信息</strong></p>
+
+<p>name可任意填写:kong</p>
+
+<p>kong Admin URL填写部署应用时配置的kong-admin url:http://kong:8002</p>
+
+<p>点击 UPDATE CONNECTION 按钮</p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-110922@2x.png" alt="QQ20210127-110922@2x" /></p>
+
+<p>再点击ACTIVE按钮</p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-110949@2x.png" alt="QQ20210127-110949@2x" /></p>
+
+<h3 id="311-拓展admin-url安全性配置">3.1.1 拓展:admin url安全性配置</h3>
+
+<p>Kong-admin,此API是为内部使用而设计的，并提供对kong的完全控制，因此在设置kong环境时应小心，以避免此API的不当公开暴露。以下有三种方式:</p>
+
+<p>1 admin api指定特定ip访问</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>admin_listen = 127.0.0.1:8001
+</code></pre></div></div>
+
+<p><strong>avoid binding Kong to all of your interfaces避免设置为向所有ip开放</strong>, by using values such as <code class="language-plaintext highlighter-rouge">0.0.0.0:8001</code>.</p>
+
+<p>2 使用iptable指定特定ip访问</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ grep admin_listen /etc/kong/kong.conf
+admin_listen 10.10.10.3:8001
+
+# explicitly allow TCP packets on port 8001 from the Kong node itself
+# this is not necessary if Admin API requests are not sent from the node
+$ iptables -A INPUT -s 10.10.10.3 -m tcp -p tcp --dport 8001 -j ACCEPT
+
+# explicitly allow TCP packets on port 8001 from the following addresses
+$ iptables -A INPUT -s 10.10.10.4 -m tcp -p tcp --dport 8001 -j ACCEPT
+$ iptables -A INPUT -s 10.10.10.5 -m tcp -p tcp --dport 8001 -j ACCEPT
+
+# drop all TCP packets on port 8001 not in the above IP list
+$ iptables -A INPUT -m tcp -p tcp --dport 8001 -j DROP
+</code></pre></div></div>
+
+<p>3 将admin-url作为服务管理权限控制</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -X POST http://localhost:8001/services \  --data name**=**my-service \  --data url**=**http://example.com/some_api
+</code></pre></div></div>
+
+<h2 id="32-配置services">3.2 配置services</h2>
+
+<p>新建services,相当于nginx中的server,主要用来区分url</p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-111333@2x.png" alt="QQ20210127-111333@2x" /></p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-111504@2x.png" alt="QQ20210127-111504@2x" /></p>
+
+<h2 id="33-配置routers">3.3 配置routers</h2>
+
+<p>在service下配置routers,相当于nginx中的server,即配置接口或接口url前缀转发规则</p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-111648@2x.png" alt="QQ20210127-111648@2x" /></p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-111727@2x.png" alt="QQ20210127-111727@2x" /></p>
+
+<p>至此,基本的配置已经完毕,请求curl https://www.liuxuan.tech/baike/api/healthcheck/readiness 即可转发至</p>
+
+<p>http://testask.gf.com.cn/baike/api/healthcheck/readiness</p>
+
+<h1 id="4-配置插件">4 配置插件</h1>
+
+<h2 id="41-鉴权">4.1 鉴权</h2>
+
+<h3 id="411开启hmac-auth鉴权">4.1.1开启Hmac Auth鉴权</h3>
+
+<p>使用场景:</p>
+
+<p>1 提供给其他服务的外部接口增加鉴权</p>
+
+<p>2 包含敏感信息或重要数据的接口增加鉴权</p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-112947@2x.png" alt="QQ20210127-112947@2x" /></p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-113032@2x.png" alt="QQ20210127-113032@2x" /></p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-113103@2x.png" alt="QQ20210127-113103@2x" /></p>
+
+<ul>
+  <li>参数</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>参数</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name</td>
+      <td>插件名称、此处为<code class="language-plaintext highlighter-rouge">hmac-auth</code></td>
+    </tr>
+    <tr>
+      <td>service_id</td>
+      <td>绑定的服务Id</td>
+    </tr>
+    <tr>
+      <td>route_id</td>
+      <td>绑定的路由Id</td>
+    </tr>
+    <tr>
+      <td>enabled</td>
+      <td>是否启用该插件，默认是true</td>
+    </tr>
+    <tr>
+      <td>config.hide_credentials</td>
+      <td>是否隐藏请求中的凭证信息（如<code class="language-plaintext highlighter-rouge">Authorization</code>头），默认是false</td>
+    </tr>
+    <tr>
+      <td>config.clock_skew</td>
+      <td>时间偏移量，默认是300s</td>
+    </tr>
+    <tr>
+      <td>config.anonymous</td>
+      <td>在验证失败后是否启用匿名消费者，值可以配置为消费者Id</td>
+    </tr>
+    <tr>
+      <td>config.validate_request_body</td>
+      <td>是否启用Body体校验，默认是false</td>
+    </tr>
+    <tr>
+      <td>config.enforce_headers</td>
+      <td>请求中必须包含的头部信息</td>
+    </tr>
+    <tr>
+      <td>config.algorithms</td>
+      <td>HMAC 算法支持的列表，默认值是<code class="language-plaintext highlighter-rouge">hmac-sha1,hmac-sha256,hmac-sha384,hmac-sha512</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>lient端实例代码:</p>
+
+<p>https://dzone.com/articles/protect-rest-service-using-0</p>
+
+<h3 id="412-登陆态鉴权-kong-自研插件实践广发通-oa-token-解析">4.1.2 登陆态鉴权-kong 自研插件实践，广发通 oa token 解析</h3>
+
+<p>http://wiki.gf.com.cn/pages/viewpage.action?pageId=89839509</p>
+
+<h2 id="42-开启rate-limiting限频">4.2 开启Rate Limiting限频</h2>
+
+<h3 id="421-配置插件">4.2.1 配置插件</h3>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-140424@2x.png" alt="QQ20210127-140424@2x" /></p>
+
+<p><img src="/Users/liuxuan/Desktop/kong/QQ20210127-140510@2x.png" alt="QQ20210127-140510@2x" /></p>
+
+<h3 id="422-如何防欺诈">4.2.2 如何防欺诈</h3>
+
+<p>封禁用户的标记有很多种，最基本的如果用户有登录态的话，就可以直接封账号。如果没有的话，可以通过设备指纹来标识设备，根据平台的不同，设备指纹可以是 PC 端的浏览器指纹，移动端的 IMEI、MAC 地址、UUID 等，或者这些条件综合起来计算出来的 machine key，使之无法造假，然后在关键请求时校验 machine key 的合法性。下面介绍可以快速实现的根据ip地址限频:</p>
+
+<h3 id="请求中几个关于ip的http头信息">请求中几个关于IP的http头信息</h3>
+
+<ul>
+  <li>
+    <p><strong>X-FORWARDED-FOR</strong> 并不是标准协议头。当你使用了代理时，web服务器就不知道你的真实IP了，为了避免这个情况，代理服务器通常会增加一个叫做<code class="language-plaintext highlighter-rouge">X_Forwarded_For</code>的头信息，把连接它的客户端IP（即你的上网机器IP）加到这个头信息里，这样就能保证网站的web服务器能获取到真实IP。它的格式通常是<code class="language-plaintext highlighter-rouge">X-Forwarded-For: client1, proxy1, proxy2</code>。此外，请注意，它也很容易被客户端欺骗。只有当您控制设置标头的代理时，才应该使用此标头</p>
+  </li>
+  <li>
+    <p><strong>RemoteAddr</strong> 代表客户端的IP，但它的值不是由客户端提供的，而是服务端根据客户端的IP指定的，访问某个网站时，假设中间没有任何代理，那么网站的web服务器(<code class="language-plaintext highlighter-rouge">Nginx</code>，<code class="language-plaintext highlighter-rouge">Apache</code>)就会把<code class="language-plaintext highlighter-rouge">remote_addr</code>设为你的机器IP，如果你用了某个代理，那么你的浏览器会先访问这个代理，然后再由这个代理转发到网站，这样web服务器就会把<code class="language-plaintext highlighter-rouge">remote_addr</code>设为这台代理机器的IP。RemoteAddr基本上不能被伪造，因为是直接从 TCP 连接信息中获取的.</p>
+
+    <p>关于伪造remoteAddr:https://yonghaowu.github.io/2018/11/23/get_reql_ip/</p>
+  </li>
+</ul>
+
+<p><strong>获取ip的方案:</strong>如果http请求经过代理，那么就从<code class="language-plaintext highlighter-rouge">X-Forwarded-For</code>中获取，如果没有经过代理，那就从<code class="language-plaintext highlighter-rouge">REMOTE_ADDR</code>中获取。由于我们部署服务所处的网络环境基本都被代理,故用X-Forwarded-For来获取客户端的ip.</p>
+
+<p>在kong的配置文件or启动参数中加入:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#通过X-Forwarded-For请求头获取真实ip,默认是通过RemoteAddr
+real_ip_header X-Forwarded-For;
+#信任ip名单;配置后kong会把X-Forwarded-For中最后一个不是信任服务器的IP当成真实IP
+real_ip_from [trusted proxy addresses or cidr blocks]
+</code></pre></div></div>
+
+<p><strong>拓展:</strong>谈谈 Kong rate-limiting 插件中的缺陷-Redis 高频卡控中的 Race Conditions 问题 https://ms2008.github.io/2018/04/04/kong-rate-limiting/</p>
+
+<p>refference:</p>
+
+<p><a href="https://github.com/Kong/kong/issues/2020">[github issues] KONG如何配置X-Forwarded-For参数代替RemoteAddr</a></p>
+
+<p>https://github.com/Kong/kong/issues/2020</p>
+
+<p>https://discuss.konghq.com/t/how-to-forward-clients-request-ip/384</p>
+:ET

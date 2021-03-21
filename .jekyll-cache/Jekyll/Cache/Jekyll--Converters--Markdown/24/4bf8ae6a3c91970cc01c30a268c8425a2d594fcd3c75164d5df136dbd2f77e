@@ -1,0 +1,33 @@
+I"v<h2 id="1-拼接集合中的字符串">1 拼接集合中的字符串</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span> <span class="n">allStr</span> <span class="o">=</span> <span class="n">courseList</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span><span class="o">.</span><span class="na">getTitle</span><span class="o">()).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h2 id="2-集合中数字求和">2 集合中数字求和</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">double</span> <span class="n">totalDuration</span> <span class="o">=</span> <span class="n">courseList</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToDouble</span><span class="o">(</span><span class="n">d</span> <span class="o">-&gt;</span> <span class="nc">Double</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">d</span><span class="o">.</span><span class="na">getDuration</span><span class="o">())).</span><span class="na">sum</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h2 id="3-集合中的字段构造成数组">3 集合中的字段构造成数组</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">questionIdList</span> <span class="o">=</span> <span class="n">questionList</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="nl">Question:</span><span class="o">:</span><span class="n">getId</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h2 id="4-filter过滤集合中的字段构造成map数组">4 filter过滤&amp;集合中的字段构造成map数组</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">remoteMapData</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;&gt;</span> <span class="n">finalRemoteData</span> <span class="o">=</span> <span class="n">remoteMapData</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">r</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">r</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"user_id"</span><span class="o">).</span><span class="na">equals</span><span class="o">(</span><span class="nc">CategoryType</span><span class="o">.</span><span class="na">ADMIN_DOWN_ID</span><span class="o">)).</span><span class="na">map</span><span class="o">(</span><span class="n">r</span> <span class="o">-&gt;</span> <span class="o">{</span>
+                <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Object</span><span class="o">&gt;</span> <span class="n">mapR</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+                <span class="n">mapR</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"portId"</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"_id"</span><span class="o">));</span>
+                <span class="n">mapR</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"portAuthor"</span><span class="o">,</span> <span class="n">r</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"user"</span><span class="o">));</span>
+                <span class="k">return</span> <span class="n">mapR</span><span class="o">;</span>
+            <span class="o">}).</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div></div>
+
+<h2 id="5-构造指定值的数组并遍历">5 构造指定值的数组并遍历</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"2"</span><span class="o">,</span> <span class="s">"3"</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+</code></pre></div></div>
+
+:ET

@@ -1,0 +1,369 @@
+I"�H<h2 id="1-重写compare方法排序">1 重写compare方法排序</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1">// 4 排序优先级： 1相关自选股回答数降序 2所有答案回答数降序</span>
+<span class="n">userInvitationDtoList</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="k">new</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">UserInvitationDto</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="nc">UserInvitationDto</span> <span class="n">o1</span><span class="o">,</span> <span class="nc">UserInvitationDto</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getStockAnswerCount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">getStockAnswerCount</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getStockAnswerCount</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">getStockAnswerCount</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getAnswerCount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">getAnswerCount</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">getAnswerCount</span><span class="o">()</span> <span class="o">&lt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">getAnswerCount</span><span class="o">())</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c1">// 课程按照pv降序排序</span>
+<span class="n">list</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="k">new</span> <span class="nc">Comparator</span><span class="o">&lt;</span><span class="nc">QuestionOverViewDto</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="nc">QuestionOverViewDto</span> <span class="n">o1</span><span class="o">,</span> <span class="nc">QuestionOverViewDto</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">long</span> <span class="n">o1PageView</span> <span class="o">=</span> <span class="n">o1</span><span class="o">.</span><span class="na">getQuestion</span><span class="o">().</span><span class="na">getPageView</span><span class="o">();</span>
+    <span class="kt">long</span> <span class="n">o2PageView</span> <span class="o">=</span> <span class="n">o2</span><span class="o">.</span><span class="na">getQuestion</span><span class="o">().</span><span class="na">getPageView</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">o1PageView</span> <span class="o">&gt;</span> <span class="n">o2PageView</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">o1PageView</span> <span class="o">&lt;</span> <span class="n">o2PageView</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="2-切面">2 切面</h2>
+
+<p><strong>@AspectJ支持以下3种通配符。</strong></p>
+
+<p>*: 匹配任意字符，但它只能匹配上下文中的一个元素。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//匹配任何public 的方法，返回值，方法名，和参数都匹配任意。</span>
+<span class="n">execution</span><span class="o">(</span><span class="kd">public</span> <span class="o">*</span> <span class="o">*(..))</span>
+<span class="c1">//匹配所有以To结尾的方法   </span>
+<span class="n">execution</span><span class="o">(*</span> <span class="o">*</span><span class="nc">To</span><span class="o">(..))</span>
+<span class="mi">1234</span>
+</code></pre></div></div>
+
+<p>… : 匹配任意字符，可以匹配上下文中的多个元素，但在表示类时，必须和*联合使用，在表示入参时则单独使用。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//匹配com.smart包下，任何 TOTO</span>
+<span class="n">within</span><span class="o">(</span><span class="n">com</span><span class="o">.</span> <span class="n">smart</span><span class="o">.</span> <span class="n">service</span><span class="o">..*.*</span><span class="nc">Service</span><span class="o">+)</span>
+<span class="mi">12</span>
+</code></pre></div></div>
+
+<p>+：表示按类型匹配指定类的所有类，必须跟在类名后面，如com.smart.Car+。继承或扩展指定类的所有类，同时还包括指定类本身。</p>
+
+<h2 id="3-用curl的格式打印resttemplate的http请求">3 用curl的格式打印restTemplate的http请求</h2>
+
+<h3 id="1-调用">1 调用</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Autowired
+RTHelper rtHelper;
+
+/**
+ * 带有重试机制的http请求
+ */
+    return parseResponseBody(httpRequestTemplate, flag, resp);
+}
+
+/**
+ * 通用url请求打印curl语句（调试用）
+ */
+public static &lt;T&gt; Map&lt;String, Object&gt; commonRequestLogCurl(HttpRequestTemplate httpRequestTemplate, String url, String flag,
+    HttpMethod httpMethod, Map&lt;String, String&gt; headParam, T postParam) throws CommonCodeException {
+    ResponseEntity&lt;Map&gt; resp = RTHelper.newExchange(url, httpMethod, headParam, postParam, Map.class);
+    return parseResponseBody(httpRequestTemplate, flag, resp);
+} ### 2 工具类
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.gf.ask.rest.util;
+
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
+
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import com.gf.ask.rest.JsonHelper;
+
+/**
+ * @Auther: liuxuan
+ * @Date: 2020/12/17 14:42
+ * @Description:
+ */
+@Component
+public class RTHelper {
+
+    private static final long serialVersionUID = 4726784355951323347L;
+
+    protected static final Logger logger = LoggerFactory.getLogger(RTHelper.class);
+
+    private static MediaType mediaType = new MediaType("application", "json", Charset.forName("UTF-8"));
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    /**
+     * get类型Params请求
+     * 为url?xxx=yyy&amp;aaa=bbb类型
+     * @param &lt;R&gt;
+     * @param url
+     * @param httpHeaders 可以为null
+     * @param params
+     * @param responseType
+     */
+    public &lt;R&gt; ResponseEntity&lt;R&gt; get(String url, HttpHeaders httpHeaders, Map&lt;String, Object&gt; params, Class&lt;R&gt; responseType) throws Exception {
+        StringBuilder urlSuffix = new StringBuilder();
+        LinkedMultiValueMap&lt;String, Object&gt; paramsMultiValueMap = new LinkedMultiValueMap();
+        if (!CollectionUtils.isEmpty(params)) {
+            urlSuffix.append("?");
+            params.forEach(paramsMultiValueMap::add);
+        }
+        convertMapHttpParam(paramsMultiValueMap, urlSuffix);
+        return exchange(url + urlSuffix.toString(), HttpMethod.GET, httpHeaders, null, responseType);
+    }
+
+    static private void convertMapHttpParam(LinkedMultiValueMap&lt;String, Object&gt; params, StringBuilder urlSuffix) {
+        if (!CollectionUtils.isEmpty(params)) {
+            List&lt;String&gt; paramList = new ArrayList&lt;&gt;();
+            params.forEach((k, v) -&gt; paramList.add(k + "=" + (CollectionUtils.isEmpty(v) ? "" : String.valueOf(v.get(0)))));
+            urlSuffix.append(StringUtils.join(paramList, "&amp;"));
+        }
+    }
+
+    /**
+     * get类型path请求
+     * 为url/{1}/{2}
+     * @param url
+     * @param httpHeaders 可以为null
+     * @param params 路径请求参数,比如/{1}/{2},list顺序代表url内部请求路径 不能使用Collections.singletonList,如果为空Collections.EMPTY_LIST 则是普通get请求
+     * @param responseType
+     * @param &lt;R&gt;
+     * @return
+     */
+    public &lt;R&gt; ResponseEntity&lt;R&gt; get(String url, HttpHeaders httpHeaders, List&lt;Object&gt; params, Class&lt;R&gt; responseType) throws Exception {
+        StringBuilder urlSuffix = new StringBuilder();
+        if (!CollectionUtils.isEmpty(params)) {
+            for (int i = 0; i &lt; params.size(); i++) {
+                params.set(i, String.valueOf(params.get(i)));
+            }
+            if (!url.endsWith("/")) {
+                urlSuffix.append("/");
+            }
+            urlSuffix.append(StringUtils.join(params, "/"));
+        }
+        return exchange(url + urlSuffix.toString(), HttpMethod.GET, httpHeaders, null, responseType);
+    }
+
+    /**
+     * json类型请求 application/json;charset=UTF-8
+     * @param url
+     * @param httpHeaders
+     * @param obj 实体对象或者map
+     * @param responseType
+     * @param &lt;R&gt;
+     * @return
+     */
+    public &lt;R&gt; ResponseEntity&lt;R&gt; json(String url, HttpHeaders httpHeaders, Object obj, Class&lt;R&gt; responseType) throws Exception {
+        httpHeaders.setContentType(mediaType);
+        return exchange(url, HttpMethod.POST, httpHeaders, obj, responseType);
+    }
+
+    /**
+     * form表单类型请求 application/x-www-form-urlencoded
+     * @param url
+     * @param httpHeaders
+     * @param obj 实体对象或者map
+     * @param responseType
+     * @param &lt;R&gt;
+     * @return
+     */
+    public &lt;R&gt; ResponseEntity&lt;R&gt; form(String url, HttpHeaders httpHeaders, Object obj, Class&lt;R&gt; responseType) throws Exception {
+        httpHeaders.setContentType(APPLICATION_FORM_URLENCODED);
+        LinkedMultiValueMap objFormParam = new LinkedMultiValueMap();
+        if (obj != null) {
+            Map&lt;String, Object&gt; objMap = JsonHelper.json2Object(JsonHelper.object2Json(obj), Map.class);
+            objMap.remove(serialVersionUID);
+            objMap.forEach((k, v) -&gt; objFormParam.add(k, v));
+        }
+        return exchange(url, HttpMethod.POST, httpHeaders, objFormParam, responseType);
+    }
+
+    /**
+     * form表单类型请求 同上
+     * @param url
+     * @param obj 实体对象或者map
+     * @param responseType
+     * @param &lt;R&gt;
+     * @return
+     */
+    public &lt;R&gt; ResponseEntity&lt;R&gt; form(String url, Object obj, Class&lt;R&gt; responseType) throws Exception {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(APPLICATION_FORM_URLENCODED);
+        return form(url, httpHeaders, obj, responseType);
+    }
+
+    /**
+     * 处理请求以及日志
+     * @param url
+     * @param httpMethod
+     * @param httpHeaders
+     * @param body 不能为string
+     * @param responseType
+     * @param &lt;R&gt;
+     * @return
+     */
+    public &lt;R&gt; ResponseEntity&lt;R&gt; exchange(String url, HttpMethod httpMethod, HttpHeaders httpHeaders, Object body, Class&lt;R&gt; responseType) throws Exception {
+
+        HttpEntity&lt;Object&gt; httpEntity = new HttpEntity&lt;&gt;(body, httpHeaders);
+
+        StringBuilder restLogStr = new StringBuilder();
+
+        setCurlLog(restLogStr, url, httpMethod, httpHeaders, body);
+
+        ResponseEntity&lt;R&gt; exchange;
+
+        try {
+            exchange = restTemplate.exchange(url, httpMethod, httpEntity, responseType);
+            setRespLog(restLogStr, exchange);
+
+        } catch (Exception e) {
+            setExceptionLog(restLogStr, e);
+            throw new Exception(e);
+        } finally {
+            logger.info(String.valueOf(restLogStr));
+        }
+        return exchange;
+    }
+
+    /**
+     * 处理请求以及日志curl
+     * 使用：
+     *     @Autowired
+     *     private RTHelper rtHelper;
+     * ResponseEntity&lt;Map&gt; resp = rtHelper.newExchange(requestListUrl, HttpMethod.GET, null, null, Map.class);
+     * @return
+     */
+    public static &lt;T&gt; ResponseEntity&lt;Map&gt; newExchange(String url, HttpMethod httpMethod, Map&lt;String, String&gt; headParam, T postParam, Class&lt;Map&gt; responseType) {
+        logger.info("url = {}", url);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        if (headParam != null) {
+            httpHeaders.setAll(headParam);
+        }
+
+        HttpEntity&lt;T&gt; entity = new HttpEntity&lt;T&gt;(postParam, httpHeaders);
+
+        // HttpEntity&lt;Object&gt; httpEntity = new HttpEntity&lt;&gt;(body, httpHeaders);
+
+        StringBuilder restLogStr = new StringBuilder();
+
+        setCurlLog(restLogStr, url, httpMethod, httpHeaders, postParam);
+
+        ResponseEntity&lt;Map&gt; exchange = null;
+        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
+        try {
+            exchange = restTemplate.exchange(url, httpMethod, entity, responseType);
+            setRespLog(restLogStr, exchange);
+
+        } catch (Exception e) {
+            setExceptionLog(restLogStr, e);
+            // throw new Exception(e);
+        } finally {
+            logger.info(String.valueOf(restLogStr));
+        }
+        return exchange;
+    }
+
+    /**
+     * 设置curl日志
+     * @param restLog
+     * @param url
+     * @param httpMethod
+     * @param httpHeaders
+     * @param body
+     */
+    static private void setCurlLog(StringBuilder restLog, String url, HttpMethod httpMethod, HttpHeaders httpHeaders, Object body) {
+        String methodName = httpMethod.name();
+        StringBuilder logTag = new StringBuilder();
+        logTag.append("\ncurl -X ").append(methodName).append(" \\\n");
+        logTag.append("  ").append(url).append(" \\\n");
+
+        if (!CollectionUtils.isEmpty(httpHeaders)) {
+            httpHeaders.forEach((k, v) -&gt; logTag.append("  -H '").append(k).append(": ").append(v.get(0)).append("' \\\n"));
+        }
+
+        MediaType contentType = httpHeaders.getContentType();
+        if (body != null) {
+
+            if (contentType != null &amp;&amp; !StringUtils.isEmpty(contentType.toString())
+                &amp;&amp; APPLICATION_FORM_URLENCODED_VALUE.equals(contentType.toString())) {
+                LinkedMultiValueMap&lt;String, Object&gt; bodyParam = (LinkedMultiValueMap) body;
+                // bodyParam.remove(TAG_SERIALVERSIONUID);
+                logTag.append("  -d '");
+                convertMapHttpParam(bodyParam, logTag);
+                logTag.append("'");
+            } else {
+                logTag.append("--header 'Content-Type: application/json'").append(" \\\n");;
+                String bodyString = JsonHelper.object2Json(body);
+                logTag.append("  -d '").append(bodyString).append("'");
+            }
+        }
+
+        String curlStr = String.valueOf(logTag);
+        if (curlStr.endsWith(" \\\n")) {
+            curlStr = curlStr.substring(0, curlStr.length() - 3);
+        }
+        restLog.append(curlStr).append("\n");
+    }
+
+    /**
+     * 设置异常日志
+     * @param restLog
+     * @param e
+     */
+    static private void setExceptionLog(StringBuilder restLog, Exception e) {
+        restLog.append("Exception:").append(e.getMessage()).append("\n");
+    }
+
+    /**
+     * 设置响应日志
+     * @param restLog
+     * @param exchange
+     * @param &lt;R&gt;
+     */
+    static private &lt;R&gt; void setRespLog(StringBuilder restLog, ResponseEntity&lt;R&gt; exchange) {
+        R body = exchange.getBody();
+        restLog.append("Response code:'").append(exchange.getStatusCode()).append("',message:'");
+        if (body instanceof String) {
+            restLog.append(body);
+        } else {
+            restLog.append(JsonHelper.object2Json(body));
+        }
+        restLog.append("'\n");
+    }
+}
+</code></pre></div></div>
+:ET

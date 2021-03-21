@@ -1,0 +1,97 @@
+I"�<h3 id="同步系统时钟">同步系统时钟</h3>
+
+<p>时间服务器：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>time.nist.gov  
+time.nuri.net  
+0.asia.pool.ntp.org  
+1.asia.pool.ntp.org  
+2.asia.pool.ntp.org  
+3.asia.pool.ntp.org
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>debian: apt-get <span class="nb">install </span>ntpdate  
+centos: yum <span class="nb">install </span>ntpdate
+
+<span class="nb">sudo </span>ntpdate time.nist.gov
+</code></pre></div></div>
+
+<h3 id="检查大文件清理docker日志">检查大文件&amp;清理docker日志</h3>
+
+<p>2020-07-24 今天拷贝一个文件到自家服务器上提示空间不足，才发现机器空间已满了，难怪这阵子按tab键自动填充命令都会报错，使用以下命令查找大文件：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find / -type f -size +800M
+</code></pre></div></div>
+
+<p>结果返回了挺多docker的log文件，服务用的也不频繁，开发者究竟定时打了多少日志，竟然累积了如此多的量。</p>
+
+<p>使用du命令查看日志文件的大小，-m表示单位为MB</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>du -m $log
+</code></pre></div></div>
+
+<p>定位到一个文件占了几十G的内存，使用rm -rf 方式删除日志后，通过df -h会发现磁盘空间并没有释放，原因：在Linux或者Unix系统中，通过rm或者文件管理器删除文件将会从文件系统的目录结构上解除链接(unlink).然而如果文件是被打开的（有一个进程正在使用），那么进程将仍然可以读取该文件，磁盘空间也一直被占用。</p>
+
+<p>正确姿势是<strong>cat /dev/null &gt; $log</strong>，当然你也可以通过rm删除后重启docker</p>
+
+<h3 id="解压文件">解压文件</h3>
+
+<ul>
+  <li><strong>mkdir</strong>目标文件夹</li>
+  <li>-d 后紧接目标文件夹</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> unzip -o -d ./v2ray ./v2ray-linux-64.zip
+ 
+ # tar解压文件
+tar -zxvf abc.tgz
+</code></pre></div></div>
+
+<h3 id="压缩文件">压缩文件</h3>
+
+<ul>
+  <li>mkdir**目标文件夹</li>
+  <li>-d 后紧接目标文件夹</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 将文件 abc文件夹 进行压缩时，排除1.txt，压缩后的文件名为 abc.tgr
+tar --exclude=abc/1.txt -zcvf abc.tgz abc
+</code></pre></div></div>
+
+<h3 id="查看dns">查看DNS</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /etc/resolv.conf
+</code></pre></div></div>
+
+<h3 id="linux内存占满卡死结束docker进程">linux内存占满卡死，结束docker进程</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">kill</span> <span class="nt">-SIGUSR1</span> <span class="si">$(</span><span class="nb">cat</span> /var/run/docker.pid<span class="si">)</span>
+<span class="nb">kill</span> <span class="nt">-9</span> <span class="si">$(</span><span class="nb">cat</span> /var/run/docker.pid<span class="si">)</span>
+<span class="nb">kill</span> <span class="nt">-5</span> <span class="si">$(</span><span class="nb">cat</span> /var/run/docker.pid<span class="si">)</span>
+</code></pre></div></div>
+
+<h3 id="根据进程名查看进程id">根据进程名查看进程id</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ps aux | grep 进程名(或者ps -ef | grep 进程名)
+</code></pre></div></div>
+
+<h3 id="通过进程id查看占用的端口">通过进程id查看占用的端口</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat -nap | grep 进程id
+</code></pre></div></div>
+
+<h3 id="通过端口号查看占用的进程id">通过端口号查看占用的进程id</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>netstat -nap | grep 端口号
+</code></pre></div></div>
+
+<h3 id="display-line-numbers">Display line numbers:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:set nu
+</code></pre></div></div>
+
+<h3 id="stop-showing-the-line-numbers">Stop showing the line numbers:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>:set nonu
+</code></pre></div></div>
+:ET

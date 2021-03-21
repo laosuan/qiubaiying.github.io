@@ -1,0 +1,74 @@
+I"�<h2 id="视频转音频">视频转音频</h2>
+
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>ffmpeg
+ffmpeg <span class="nt">-i</span> input.m4a output.mp3
+</code></pre></div></div>
+
+<h2 id="查看端口占用">查看端口占用</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsof <span class="nt">-i</span> tcp:8080 
+</code></pre></div></div>
+
+<h2 id="brew">brew</h2>
+
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 强制关闭，解除锁定
+<span class="nb">rm</span> <span class="nt">-rf</span> /usr/local/var/homebrew/locks
+// 临时关闭自动更新
+<span class="nb">export </span><span class="nv">HOMEBREW_NO_AUTO_UPDATE</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div></div>
+
+<h2 id="下载网络文件">下载网络文件</h2>
+
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-O</span> <span class="s1">'url'</span>
+</code></pre></div></div>
+
+<h2 id="chrome-extension-位置">chrome extension 位置</h2>
+
+<div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/Library/Application<span class="se">\ </span>Support/Google/Chrome/Default/Extensions
+</code></pre></div></div>
+
+<h2 id="好用的软件">好用的软件</h2>
+<h3 id="textmate">textmate</h3>
+<p>安装markdown插件
+`
+mkdir -p ~/Library/Application\ Support/TextMate/Bundles
+cd ~/Library/Application\ Support/TextMate/Bundles
+git clone https://github.com/mikemcquaid/GitHub-Markdown.tmbundle
+`</p>
+
+<p>markdown预览快捷键:
+Yes, it’s possible to make a preview without file saving, just run Bundles &gt; Markdown Redcarpet &gt; Preview or here is a shortcut for this: ⌃+⌥+⌘+P.</p>
+
+<h2 id="迁移系统至大容量外置ssd-20200819">迁移系统至大容量外置SSD 20200819</h2>
+
+<p>最近在系统学习c语言与数据结构，在vscode中调试c语言需要安装相应依赖，其中安装xcode需20G+磁盘容量。长期以来都在120G的小磁盘兢兢业业地隔段时间删一些不经常用的东西以维持系统最基本的使用空间，直到今日终于扛不住了，得益于ssd持续降价，在奶茶东下单一块金士顿480G的ssd，到货后第一时间插入备份好的时间机器U盘进行迁移操作，遇到了以下几个问题：</p>
+
+<p>1 重启时按住Command+R，选择硬盘工具，把目标硬盘抹掉，选apfs格式。在恢复时选择目标硬盘，提示apfs系统只能恢复到内置ssd中，建议安装最新的系统，使用系统迁移工具迁移。重试了几次都无法继续，所幸备份中还有个10.12的系统，这个备份没有限制，于是先将10.12的系统恢复到新硬盘中，大概40分钟后完成，再次进入恢复页，就可以将10.14的Mojave系统恢复至新硬盘了。</p>
+
+<p>2 恢复操作完成后，重启系统，进入登录界面，输入密码后黑屏，只剩下鼠标能动，重启安卓shift键进入安全模式也是同样的情况。在网上查到此贴https://blog.csdn.net/qxd100/article/details/53876597，按步骤操作后重启终于能看见一个软件了，但是dock和桌面全不见了。。进入安全模式（不知道为什么巨卡），将一些代理软件和没必要的软件删除，再重启系统恢复正常。</p>
+
+<p>3 重启后界面表现正常，但是网络连接不上，系统偏好设置-网络，位置下拉框选择编辑位置，新建一个位置刷新后网络恢复正常。</p>
+
+<h2 id="下载youtube视频">下载youtube视频</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 带字幕
+youtube-dl https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>e2sKKGE1IoM <span class="nt">--write-auto-sub</span>
+</code></pre></div></div>
+
+<h2 id="vscode-c语言调试配置">vscode c语言调试配置</h2>
+
+<p>1 安装xcode</p>
+
+<p>2 sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /</p>
+
+<p>3 配置相关文件</p>
+
+<p><a href="https://juejin.im/post/6844903901561356295">vscode mac环境配置</a></p>
+
+<h2 id="xcode-配置">xcode 配置</h2>
+
+<ul>
+  <li><a href="https://www.jianshu.com/p/09cfecfb1ab7">为Xcode添加删除整行、复制整行、在下方新建一行快捷键</a></li>
+</ul>
+
+:ET

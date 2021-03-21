@@ -1,0 +1,98 @@
+I"B+<h2 id="group-aggregation">$group (aggregation)</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 准备数据
+db.sales.insertMany<span class="o">([</span>
+  <span class="o">{</span> <span class="s2">"_id"</span> : 1, <span class="s2">"item"</span> : <span class="s2">"abc"</span>, <span class="s2">"price"</span> : NumberDecimal<span class="o">(</span><span class="s2">"10"</span><span class="o">)</span>, <span class="s2">"quantity"</span> : NumberInt<span class="o">(</span><span class="s2">"2"</span><span class="o">)</span>, <span class="s2">"date"</span> : ISODate<span class="o">(</span><span class="s2">"2014-03-01T08:00:00Z"</span><span class="o">)</span> <span class="o">}</span>,
+  <span class="o">{</span> <span class="s2">"_id"</span> : 2, <span class="s2">"item"</span> : <span class="s2">"jkl"</span>, <span class="s2">"price"</span> : NumberDecimal<span class="o">(</span><span class="s2">"20"</span><span class="o">)</span>, <span class="s2">"quantity"</span> : NumberInt<span class="o">(</span><span class="s2">"1"</span><span class="o">)</span>, <span class="s2">"date"</span> : ISODate<span class="o">(</span><span class="s2">"2014-03-01T09:00:00Z"</span><span class="o">)</span> <span class="o">}</span>,
+  <span class="o">{</span> <span class="s2">"_id"</span> : 3, <span class="s2">"item"</span> : <span class="s2">"xyz"</span>, <span class="s2">"price"</span> : NumberDecimal<span class="o">(</span><span class="s2">"5"</span><span class="o">)</span>, <span class="s2">"quantity"</span> : NumberInt<span class="o">(</span> <span class="s2">"10"</span><span class="o">)</span>, <span class="s2">"date"</span> : ISODate<span class="o">(</span><span class="s2">"2014-03-15T09:00:00Z"</span><span class="o">)</span> <span class="o">}</span>,
+  <span class="o">{</span> <span class="s2">"_id"</span> : 4, <span class="s2">"item"</span> : <span class="s2">"xyz"</span>, <span class="s2">"price"</span> : NumberDecimal<span class="o">(</span><span class="s2">"5"</span><span class="o">)</span>, <span class="s2">"quantity"</span> :  NumberInt<span class="o">(</span><span class="s2">"20"</span><span class="o">)</span> , <span class="s2">"date"</span> : ISODate<span class="o">(</span><span class="s2">"2014-04-04T11:21:39.736Z"</span><span class="o">)</span> <span class="o">}</span>,
+  <span class="o">{</span> <span class="s2">"_id"</span> : 5, <span class="s2">"item"</span> : <span class="s2">"abc"</span>, <span class="s2">"price"</span> : NumberDecimal<span class="o">(</span><span class="s2">"10"</span><span class="o">)</span>, <span class="s2">"quantity"</span> : NumberInt<span class="o">(</span><span class="s2">"10"</span><span class="o">)</span> , <span class="s2">"date"</span> : ISODate<span class="o">(</span><span class="s2">"2014-04-04T21:23:13.331Z"</span><span class="o">)</span> <span class="o">}</span>,
+  <span class="o">{</span> <span class="s2">"_id"</span> : 6, <span class="s2">"item"</span> : <span class="s2">"def"</span>, <span class="s2">"price"</span> : NumberDecimal<span class="o">(</span><span class="s2">"7.5"</span><span class="o">)</span>, <span class="s2">"quantity"</span>: NumberInt<span class="o">(</span><span class="s2">"5"</span> <span class="o">)</span> , <span class="s2">"date"</span> : ISODate<span class="o">(</span><span class="s2">"2015-06-04T05:08:13Z"</span><span class="o">)</span> <span class="o">}</span>,
+  <span class="o">{</span> <span class="s2">"_id"</span> : 7, <span class="s2">"item"</span> : <span class="s2">"def"</span>, <span class="s2">"price"</span> : NumberDecimal<span class="o">(</span><span class="s2">"7.5"</span><span class="o">)</span>, <span class="s2">"quantity"</span>: NumberInt<span class="o">(</span><span class="s2">"10"</span><span class="o">)</span> , <span class="s2">"date"</span> : ISODate<span class="o">(</span><span class="s2">"2015-09-10T08:43:00Z"</span><span class="o">)</span> <span class="o">}</span>,
+  <span class="o">{</span> <span class="s2">"_id"</span> : 8, <span class="s2">"item"</span> : <span class="s2">"abc"</span>, <span class="s2">"price"</span> : NumberDecimal<span class="o">(</span><span class="s2">"10"</span><span class="o">)</span>, <span class="s2">"quantity"</span> : NumberInt<span class="o">(</span><span class="s2">"5"</span> <span class="o">)</span> , <span class="s2">"date"</span> : ISODate<span class="o">(</span><span class="s2">"2016-02-06T20:20:13Z"</span><span class="o">)</span> <span class="o">}</span>,
+<span class="o">])</span>
+
+// 按item字段统计
+db.sales.aggregate<span class="o">(</span> <span class="o">[</span> <span class="o">{</span> <span class="nv">$group</span> : <span class="o">{</span> _id : <span class="s2">"</span><span class="nv">$item</span><span class="s2">"</span> <span class="o">}</span> <span class="o">}</span> <span class="o">]</span> <span class="o">)</span>
+// 结果
+<span class="o">{</span> <span class="s2">"_id"</span> : <span class="s2">"abc"</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">"_id"</span> : <span class="s2">"jkl"</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">"_id"</span> : <span class="s2">"def"</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">"_id"</span> : <span class="s2">"xyz"</span> <span class="o">}</span>
+
+// 统计总价
+db.sales.aggregate<span class="o">(</span>
+  <span class="o">[</span>
+    // First Stage
+    <span class="o">{</span>
+      <span class="nv">$group</span> :
+        <span class="o">{</span>
+          _id : <span class="s2">"</span><span class="nv">$item</span><span class="s2">"</span>,
+          totalSaleAmount: <span class="o">{</span> <span class="nv">$sum</span>: <span class="o">{</span> <span class="nv">$multiply</span>: <span class="o">[</span> <span class="s2">"</span><span class="nv">$price</span><span class="s2">"</span>, <span class="s2">"</span><span class="nv">$quantity</span><span class="s2">"</span> <span class="o">]</span> <span class="o">}</span> <span class="o">}</span>
+        <span class="o">}</span>
+     <span class="o">}</span>,
+     // Second Stage
+     <span class="o">{</span>
+       <span class="nv">$match</span>: <span class="o">{</span> <span class="s2">"totalSaleAmount"</span>: <span class="o">{</span> <span class="nv">$gte</span>: 100 <span class="o">}</span> <span class="o">}</span>
+     <span class="o">}</span>
+   <span class="o">]</span>
+ <span class="o">)</span>
+ 
+ // 结果
+ 
+<span class="o">{</span> <span class="s2">"_id"</span> : <span class="s2">"abc"</span>, <span class="s2">"totalSaleAmount"</span> : NumberDecimal<span class="o">(</span><span class="s2">"170"</span><span class="o">)</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">"_id"</span> : <span class="s2">"xyz"</span>, <span class="s2">"totalSaleAmount"</span> : NumberDecimal<span class="o">(</span><span class="s2">"150"</span><span class="o">)</span> <span class="o">}</span>
+<span class="o">{</span> <span class="s2">"_id"</span> : <span class="s2">"def"</span>, <span class="s2">"totalSaleAmount"</span> : NumberDecimal<span class="o">(</span><span class="s2">"112.5"</span><span class="o">)</span> <span class="o">}</span>
+
+
+// java案例
+db.Answer.aggregate<span class="o">({</span>
+	<span class="s2">"</span><span class="nv">$match</span><span class="s2">"</span>: <span class="o">{</span>
+		<span class="s2">"author.loginName"</span>: <span class="s2">"bfxujia"</span>
+	<span class="o">}</span>
+<span class="o">}</span>, <span class="o">{</span>
+	<span class="s2">"</span><span class="nv">$group</span><span class="s2">"</span>: <span class="o">{</span>
+		<span class="s2">"_id"</span>: <span class="s2">"</span><span class="nv">$category</span><span class="s2">._id"</span>,
+		<span class="s2">"count"</span>: <span class="o">{</span>
+			<span class="s2">"</span><span class="nv">$sum</span><span class="s2">"</span>: 1
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>, <span class="o">{</span>
+	<span class="s2">"</span><span class="nv">$skip</span><span class="s2">"</span>: 0
+<span class="o">}</span>, <span class="o">{</span>
+	<span class="s2">"</span><span class="nv">$limit</span><span class="s2">"</span>: 30
+<span class="o">}</span>
+Criteria criteria <span class="o">=</span> Criteria.where<span class="o">(</span><span class="s2">"author.loginName"</span><span class="o">)</span>.is<span class="o">(</span>loginName<span class="o">)</span><span class="p">;</span>
+        Aggregation agg <span class="o">=</span> newAggregation<span class="o">(</span>
+            match<span class="o">(</span>criteria<span class="o">)</span>, group<span class="o">(</span><span class="s2">"</span><span class="nv">$category</span><span class="s2">.id"</span><span class="o">)</span>.count<span class="o">()</span>.as<span class="o">(</span><span class="s2">"count"</span><span class="o">)</span>, skip<span class="o">(</span>from<span class="o">)</span>, limit<span class="o">(</span>size<span class="o">))</span><span class="p">;</span>
+        // Convert the aggregation result into a List
+        AggregationResults&lt;CategoryCount&gt; groupResults <span class="o">=</span> mongoTemplate.aggregate<span class="o">(</span>agg, Answer.class, CategoryCount.class<span class="o">)</span><span class="p">;</span>
+        <span class="k">return </span>groupResults.getMappedResults<span class="o">()</span><span class="p">;</span>
+        
+public class CategoryCount <span class="o">{</span>
+    private String _id<span class="p">;</span>
+    private long count<span class="p">;</span>
+<span class="o">}</span>
+
+// 统计数目
+db.Answer.aggregate<span class="o">({</span>
+<span class="s2">"</span><span class="nv">$match</span><span class="s2">"</span>: <span class="o">{</span>
+<span class="s2">"author.type"</span>: <span class="s2">"user"</span> ,
+<span class="s2">"createdAt"</span>: <span class="o">{</span>
+        <span class="s2">"</span><span class="nv">$gt</span><span class="s2">"</span>: ISODate<span class="o">(</span><span class="s2">"2020-10-11T00:53:24.706+0000"</span><span class="o">)</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span>, <span class="o">{</span>
+<span class="s2">"</span><span class="nv">$group</span><span class="s2">"</span>: <span class="o">{</span>
+<span class="s2">"_id"</span>: <span class="s2">"</span><span class="nv">$author</span><span class="s2">.loginName"</span>,
+<span class="s2">"count"</span>: <span class="o">{</span>
+<span class="s2">"</span><span class="nv">$sum</span><span class="s2">"</span>: 1
+<span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span>, <span class="o">{</span><span class="s2">"</span><span class="nv">$sort</span><span class="s2">"</span>: <span class="o">{</span><span class="s2">"count"</span> : <span class="nt">-1</span><span class="o">}</span> <span class="o">})</span>
+</code></pre></div></div>
+
+<p>reference:</p>
+
+<p>1 https://docs.mongodb.com/manual/reference/operator/aggregation/group/</p>
+:ET

@@ -1,0 +1,97 @@
+I"t<h1 id="zsh">Zsh</h1>
+
+<p>查看系统shell语言</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/shells
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//Centos 需自行安装
+sudo yum install zsh
+</code></pre></div></div>
+
+<p>指定zsh</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chsh <span class="nt">-s</span> /bin/zsh
+</code></pre></div></div>
+
+<h2 id="配置">配置：</h2>
+
+<h3 id="安装autojump">安装autojump</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+// MACOS
+/bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install.sh<span class="si">)</span><span class="s2">"</span>
+
+brew <span class="nb">install </span>autojump
+// linux 
+wget https://github.com/downloads/joelthelion/autojump/autojump_v21.1.2.tar.gz
+./install.sh
+
+
+add below code <span class="k">in</span> ~/.zshrc
+<span class="o">[[</span> <span class="nt">-s</span> ~/.autojump/etc/profile.d/autojump.sh <span class="o">]]</span> <span class="o">&amp;&amp;</span> <span class="nb">.</span> ~/.autojump/etc/profile.d/autojump.sh
+</code></pre></div></div>
+
+<h2 id="安装oh-my-zsh">安装oh-my-zsh</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<h3 id="修改主题">修改主题：</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> vim ~/.zshrc
+</code></pre></div></div>
+
+<p>将<code class="language-plaintext highlighter-rouge">ZSH_THEME</code>改成<code class="language-plaintext highlighter-rouge">ys</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">"ys"</span>
+</code></pre></div></div>
+
+<p>更新配置：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> ~/.zshrc   
+</code></pre></div></div>
+
+<h3 id="添加插件">添加插件</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#1 zsh-z  For oh-my-zsh users
+#Execute the following command:
+
+git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
+
+#and add zsh-z to the line of your .zshrc that specifies plugins=(), e.g. plugins=( git zsh-z ).
+
+#2 zsh-autosuggestions Clone this repository into $ZSH_CUSTOM/plugins (by default ~/.oh-my-zsh/custom/plugins)
+
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+#Add the plugin to the list of plugins for Oh My Zsh to load (inside ~/.zshrc):
+
+plugins=(zsh-autosuggestions)
+# 按➡️键或Ctrl+f补全
+
+#3 zsh-syntax-highlighting
+
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+plugins=( [plugins...] zsh-syntax-highlighting)
+</code></pre></div></div>
+<h1 id="iterm">iterm</h1>
+
+<h2 id="快捷密码">快捷密码</h2>
+
+<h2 id="热键呼出">热键呼出</h2>
+
+<h1 id="alfred">alfred</h1>
+
+<h2 id="快速搜索">快速搜索</h2>
+
+<p>整理如下：</p>
+
+<h3 id="1">1</h3>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li><a href="https://www.jianshu.com/p/e9f3352c785f">5分钟上手Mac效率神器Alfred以及Alfred常用操作</a></li>
+</ul>
+
+:ET
