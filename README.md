@@ -1,4 +1,9 @@
- 
+```
+docker run \
+  --volume="$PWD:/srv/jekyll" \
+  -it jekyll/jekyll:3.8 \
+  jekyll build
+``` 
 
 ![](https://raw.githubusercontent.com/qiubaiying/qiubaiying.github.io/master/img/readme-home.png)
 
