@@ -2,7 +2,7 @@
 layout:     post
 title:     树莓派安装CUPS实现普通打印机通过iphone打印
 subtitle:   
-date:       2021-16-19
+date:       2021-06-19
 author:     laosuan
 header-img: 
 catalog: true
