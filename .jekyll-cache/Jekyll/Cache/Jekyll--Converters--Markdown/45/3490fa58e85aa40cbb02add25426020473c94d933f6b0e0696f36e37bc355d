@@ -1,7 +1,13 @@
-I"�<h2 id="视频转音频">视频转音频</h2>
+I"r"<h2 id="视频转音频">视频转音频</h2>
 
 <div class="language-zsh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>ffmpeg
 ffmpeg <span class="nt">-i</span> input.m4a output.mp3
+</code></pre></div></div>
+
+<p>有的视频，如一些视频学习教程通常画面都是不大变化的，和变动速度快的打斗视频所需要的帧数完全不同，音质也不需要很高。可以降低fps和音频码率的方法大大压缩文件大小，而清晰度不变！
+通常转成.mp4，采用H.264视频压缩算法和AAC音频压缩算法，视频帧率10fps，音频码率32k</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffmpeg -i input.mp4 -r 10 -b:a 32k output.mp4
 </code></pre></div></div>
 
 <h2 id="查看端口占用">查看端口占用</h2>
@@ -53,6 +59,10 @@ Yes, it’s possible to make a preview without file saving, just run Bundles &gt
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 带字幕
 youtube-dl https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>e2sKKGE1IoM <span class="nt">--write-auto-sub</span>
+// 直接下载mp3格式
+youtube-dl <span class="nt">-x</span> <span class="nt">--audio-format</span> mp3 https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>e2sKKGE1IoM
+// 限制大小
+youtube-dl https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>e2sKKGE1IoM <span class="nt">-f</span> <span class="s1">'best[filesize&lt;80M]'</span>
 </code></pre></div></div>
 
 <h2 id="vscode-c语言调试配置">vscode c语言调试配置</h2>
@@ -71,4 +81,62 @@ youtube-dl https://www.youtube.com/watch<span class="se">\?</span>v<span class="
   <li><a href="https://www.jianshu.com/p/09cfecfb1ab7">为Xcode添加删除整行、复制整行、在下方新建一行快捷键</a></li>
 </ul>
 
+<h2 id="快捷键">快捷键</h2>
+
+<p><strong>Option-Shift-Command-V</strong> 即可「去样式」粘贴</p>
+
+<h2 id="command-to-install-a-dmg">command to install a dmg</h2>
+
+<p>First, mount the dmg image : <code class="language-plaintext highlighter-rouge">sudo hdiutil attach &lt;image&gt;.dmg</code></p>
+
+<p>The image will be <em>mounted</em> to <code class="language-plaintext highlighter-rouge">/Volumes/&lt;image&gt;</code>. Mine <em>contained</em> a package which i <em>installed</em> with: <code class="language-plaintext highlighter-rouge">sudo installer -package /Volumes/&lt;image&gt;/&lt;image&gt;.pkg -target /</code></p>
+
+<p>Finally unmount the image: <code class="language-plaintext highlighter-rouge">sudo hdiutil detach /Volumes/&lt;image&gt;</code>.</p>
+
+<h2 id="手动修改备份路径">手动修改备份路径</h2>
+
+<h3 id="迁移旧的备份文件">迁移旧的备份文件</h3>
+
+<ol>
+  <li>
+    <p>退出 iTunes（如果你已经打开了的话），并连接你的外置磁盘。</p>
+  </li>
+  <li>
+    <p>打开 <em>Finder</em>，依次点击「前往」-「前往文件夹」，在弹出窗口中输入如下路径（iTunes 的默认备份路径）：</p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Library/Application Support/MobileSync/Backup
+</code></pre></div></div>
+
+<p>将 <em>Backup</em> 文件夹中的备份文件（如有）拷贝到外置磁盘中。完成后，即可删除 <em>Backup</em> 文件夹或将其重命名为其他名字，例如 <em>Backup</em> old（<strong>一定要执行删除或重命名操作，这很重要！</strong>）。</p>
+
+<h3 id="创建符号链接">创建符号链接</h3>
+
+<p>为了让 iTunes 能够备份到外置磁盘，关键是在原备份文件夹和外置磁盘文件夹之间建立符号链接（Symbolic Link，也称软链接，类似于Windows 的快捷方式或 OS X 中的替身文件）。从而使得我们能够欺骗 iTunes，令其误以为是备份在内置磁盘。</p>
+
+<p>为了方便说明，下文中以外置磁盘名称为 Mac，其中用于存储备份的文件夹名为 iOS <em>Backups</em> 为例进行说明。<strong>你可以根据需求对名称进行调整，不过要记得在输入下文中的路径命令时也要进行对应调整。</strong></p>
+
+<ol>
+  <li>
+    <p>打开 <em>Finder</em>，选中外置磁盘中的 iOS <em>Backups</em> 文件夹。</p>
+  </li>
+  <li>
+    <p>打开「终端」，将前述 iOS <em>Backups</em> 文件夹拖入，得到路径为：</p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Volumes/Mac/iOS\ Backups
+</code></pre></div></div>
+
+<ol>
+  <li>在文本工具中，复制、粘贴上述路径和 iTunes 默认备份路径，并将其组合为下面命令（注意其中的空格）：</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -s /Volumes/Mac/iOS\ Backups ~/Library/Application\ Support/MobileSync/Backup
+</code></pre></div></div>
+
+<ol>
+  <li>重启终端，执行上一步中的命令，回车确认。完成后，再次查看 iTunes 默认备份文件夹，发现一个带着小箭头的 <em>Backup</em> 文件，表明软链接建立完成。</li>
+</ol>
 :ET

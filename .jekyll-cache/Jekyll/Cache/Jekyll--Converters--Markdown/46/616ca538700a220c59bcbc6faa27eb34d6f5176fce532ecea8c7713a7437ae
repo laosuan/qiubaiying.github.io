@@ -1,4 +1,4 @@
-I"L<h1 id="欢迎使用-ios-版-mweb">欢迎使用 iOS 版 MWeb</h1>
+I"=<h1 id="欢迎使用-ios-版-mweb">欢迎使用 iOS 版 MWeb</h1>
 
 <p>MWeb 是专业的 Markdown 写作、记笔记、静态博客生成软件，目前已支持 Mac，iPad 和 iPhone。MWeb 所使用的 Markdown 语法为 Github Flavored Markdown，简称 GFM，这是一种最为广泛使用的 Markdown 语法之一。如果你不知道什么是 Markdown，建议看一下附带的 <a href="Markdown Syntax.md">Markdown 语法官方说明</a> 文档。GFM 除了支持官方的语法外，还扩展了不少语法。</p>
 
@@ -135,7 +135,7 @@ $$	x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 
 <p>效果如下：</p>
 
-<p>这是一个脚注：<sup id="fnref:sample_footnote" role="doc-noteref"><a href="#fn:sample_footnote" class="footnote" rel="footnote">1</a></sup></p>
+<p>这是一个脚注：<sup id="fnref:sample_footnote" role="doc-noteref"><a href="#fn:sample_footnote" class="footnote">1</a></sup></p>
 
 <h3 id="注释和阅读更多">注释和阅读更多</h3>
 

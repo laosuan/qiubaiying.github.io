@@ -1,0 +1,193 @@
+I"0+<h1 id="macos">MACOS</h1>
+
+<hr />
+
+<h2 id="前言">前言</h2>
+
+<p>Dogecoin 现在逐渐火爆，就在最近一个月，单个 dogecoin 价值直接翻一倍，在未来似乎还存在这无限可能。</p>
+
+<p>我在<a href="https://link.zhihu.com/?target=https%3A//aotunote.com/posts/digital-unmineable-full-functionallity-mining-software/">这篇文章</a>介绍了 unMineable 这款全能的挖矿软件，但它并不支持 macOS，因此我摸索了一番，成功在 macOS 上挖 dogecoin。</p>
+
+<p>因此本文将给大家介绍在 macOS 上使用 <em>CPU</em>(非 GPU)挖矿挖狗狗币的方法，目的在于分享、交流、学习的目的。我的设备是 MacBook Pro 2015 款，性能是比较低的，如果有朋友是 M1 芯片欢迎来反馈算力如何。</p>
+
+<p>注意：本教程可能存在编程相关知识，跟着步骤一步一步来，肯定会成功的。如果有看不明白的地方，请在最下方的评论区留言，我会尽可能的解释清楚！</p>
+
+<h2 id="运行成功截图">运行成功截图</h2>
+
+<p><img src="https://pic2.zhimg.com/80/v2-9440a430e5da74188ed0bb8eb63189d1_1440w.jpg" alt="img" /></p>
+
+<h2 id="安装流程只需要-1-次即可">安装流程(只需要 1 次即可)</h2>
+
+<blockquote>
+  <p>为了让教程面向大众，这里列出所有需要安装的工具，如果你已经安装好了对应的则可以跳过。</p>
+</blockquote>
+
+<h3 id="打开终端-app">打开终端 app</h3>
+
+<p>在你的应用抽屉找到这个 app 并运行。</p>
+
+<p><img src="https://pic2.zhimg.com/80/v2-77f25b5d3a58d2656cf13715eddb89ad_1440w.png" alt="img" /></p>
+
+<h3 id="安装-brew">安装 <em>brew</em></h3>
+
+<p>完整复制这段命令并粘贴到终端，回车开始安装 <em>brew</em>。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p><img src="https://pic1.zhimg.com/80/v2-d1681cab1baab230cc2a8d5eb179a958_1440w.jpg" alt="img" /></p>
+
+<h3 id="安装-git">安装 git</h3>
+
+<p>完整复制这段命令并粘贴到终端，回车开始安装 git。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>git
+</code></pre></div></div>
+
+<p><img src="https://pic4.zhimg.com/80/v2-fb9b5ca5fc3b4dd3bf830063eccfb623_1440w.png" alt="img" /></p>
+
+<h3 id="安装-xmrig重点">安装 xmrig(重点)</h3>
+
+<p>1.先创建一个工作区</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>workspace
+</code></pre></div></div>
+
+<p>2.进入工作区</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>workspace
+</code></pre></div></div>
+
+<p>3.安装依赖工具。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>cmake libuv openssl hwloc
+</code></pre></div></div>
+
+<p>4.克隆源代码</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/xmrig/xmrig.git <span class="nt">--depth</span> 1
+// 如果网络有问题用镜像: 
+git clone https://hub.fastgit.org/xmrig/xmrig
+</code></pre></div></div>
+
+<p>5.进入源代码文件夹</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>xmrig
+</code></pre></div></div>
+
+<p>6.创建一个 <code class="language-plaintext highlighter-rouge">build</code> 文件夹用来存放编译后的代码</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>build
+</code></pre></div></div>
+
+<p>7.进入到 <code class="language-plaintext highlighter-rouge">build</code> 文件夹</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>build
+</code></pre></div></div>
+
+<p>8.编译源代码</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake .. <span class="nt">-DWITH_TLS</span><span class="o">=</span>OFF
+</code></pre></div></div>
+
+<p>9.编译挖矿程序</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make <span class="nt">-j</span> <span class="si">$(</span>sysctl <span class="nt">-n</span> hw.logicalcpu<span class="si">)</span>
+</code></pre></div></div>
+
+<h2 id="挖矿相关">挖矿相关</h2>
+
+<h3 id="开始挖矿">开始挖矿</h3>
+
+<p>安装完后可以开始挖矿了，复制下面命令并粘贴到终端，回车启动(注意需要替换的地方)：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./xmrig-notls <span class="nt">-o</span> rx.unmineable.com:3333 <span class="nt">-a</span> rx <span class="nt">-k</span> <span class="nt">-u</span> DOGE:替换为你的钱包地址.这台设备的名字<span class="o">(</span>可以随便填<span class="o">)</span><span class="c">#8vmj-tbib</span>
+</code></pre></div></div>
+
+<p>完整的示例是这样的：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./xmrig-notls <span class="nt">-o</span> rx.unmineable.com:3333 <span class="nt">-a</span> rx <span class="nt">-k</span> <span class="nt">-u</span> DOGE:DHx6apqKCsvDbgbAj6e4tegGRmQE9h7KMe.mac#8vmj-tbib
+</code></pre></div></div>
+
+<p>保留 <code class="language-plaintext highlighter-rouge">#8jjv-jipu</code> 可以让挖矿手续费降低到 <code class="language-plaintext highlighter-rouge">0.75%</code>，注意 # 号前是没有空格的，因为它不属于参数。</p>
+
+<h3 id="停止挖矿">停止挖矿</h3>
+
+<p>在终端界面按键盘的 <code class="language-plaintext highlighter-rouge">control</code> + <code class="language-plaintext highlighter-rouge">C</code> 即可。</p>
+
+<h3 id="下次继续挖矿">下次继续挖矿</h3>
+
+<p>正如安装流程提示只需要 1 次即可，我们不需要每次都运行安装编译过程。</p>
+
+<p>所以下次打开终端依次运行这些命令即可：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>workspace/xmrig/build
+
+./xmrig-notls <span class="nt">-o</span> rx.unmineable.com:3333 <span class="nt">-a</span> rx <span class="nt">-k</span> <span class="nt">-u</span> DOGE:DHx6apqKCsvDbgbAj6e4tegGRmQE9h7KMe.mac#8vmj-tbib
+</code></pre></div></div>
+
+<h2 id="注意事项推荐阅读">注意事项(推荐阅读)</h2>
+
+<h3 id="如何在-unmineable-验证我是否在线">如何在 unmineable 验证我是否在线</h3>
+
+<p>打开网址 <a href="https://link.zhihu.com/?target=https%3A//unmineable.com/coins/DOGE/address/">https://unmineable.com/coins/DOGE/address/</a> 在中间输入你的钱包地址查询后，滚到下面会有图表。</p>
+
+<p>https://unmineable.com/coins/DOGE/address/DHx6apqKCsvDbgbAj6e4tegGRmQE9h7KMe</p>
+
+<h3 id="如何降低挖矿-cpu-使用率">如何降低挖矿 <em>CPU</em> 使用率</h3>
+
+<p>如果挖矿占用 <em>CPU</em> 过高会导致我们在处理其他任务时变得不顺手或卡顿，这时可以分配更少的 <em>CPU</em> 使用量于挖矿。</p>
+
+<p>细心对比之前的挖矿命令会发现多了 <code class="language-plaintext highlighter-rouge">--cpu-max-threads-hint=50</code> 这个参数，后面的数字就是 <em>CPU</em> 使用百分比，你可以根据实际需要分配合适的值。</p>
+
+<p>注意这个参数是有限制的，它的值根据你的 <em>CPU</em> 核心数而决定。
+例如你的 <em>CPU</em> 是双核的，那么可输入的值为 <code class="language-plaintext highlighter-rouge">50</code> 和 <code class="language-plaintext highlighter-rouge">100</code>。
+例如你的 <em>CPU</em> 是四核的，那么可输入的值为 <code class="language-plaintext highlighter-rouge">25</code>、 <code class="language-plaintext highlighter-rouge">50</code>、 <code class="language-plaintext highlighter-rouge">75</code> 和 <code class="language-plaintext highlighter-rouge">100</code>。
+以此类推。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./xmrig-notls <span class="nt">-o</span> rx.unmineable.com:3333 <span class="nt">--cpu-max-threads-hint</span><span class="o">=</span>50 <span class="nt">-a</span> rx <span class="nt">-k</span> <span class="nt">-u</span> DOGE:DHx6apqKCsvDbgbAj6e4tegGRmQE9h7KMe.mac#8vmj-tbib
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 公众号：aotunote
+- 原文链接：https://aotunote.com/posts/digital-how-to-mine-dogecoin-on-macos/
+</code></pre></div></div>
+
+<h1 id="linux">LINUX</h1>
+
+<hr />
+
+<p>基于最新版xmrig-6.10.0的源码 https://github.com/xmrig/xmrig，
+在CentOS上重新编译xmrig静态版本，修改了最低捐赠比例(<em>donate</em>-level=0)。</p>
+
+<h2 id="源码修改">源码修改</h2>
+
+<p>下载xmrig源码</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/xmrig/xmrig.git
+
+</code></pre></div></div>
+
+<p>修改文件 xmrig/src/<em>donate</em>.h
+把变量kMinimumDonateLevel 的值从1改到0</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">constexpr</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">kMinimumDonateLevel</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+  
+ 
+</code></pre></div></div>
+
+<h2 id="编译">编译</h2>
+
+<p>步骤参照 https://xmrig.com/docs/<em>miner</em>/build/centos7 的 Advanced build 部分。
+在Centos上安装编译所需的工具库</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. <span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+2. <span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> git make cmake3 gcc gcc-c++ libstdc++-static automake libtool autoconf
+3. git clone https://github.com/xmrig/xmrig.git
+4. <span class="nb">mkdir </span>xmrig/build
+5. <span class="nb">cd </span>xmrig/scripts <span class="o">&amp;&amp;</span> ./build_deps.sh <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ../build
+6. cmake3 .. <span class="nt">-DXMRIG_DEPS</span><span class="o">=</span>scripts/deps
+7. make <span class="nt">-j</span><span class="si">$(</span><span class="nb">nproc</span><span class="si">)</span>
+</code></pre></div></div>
+
+:ET

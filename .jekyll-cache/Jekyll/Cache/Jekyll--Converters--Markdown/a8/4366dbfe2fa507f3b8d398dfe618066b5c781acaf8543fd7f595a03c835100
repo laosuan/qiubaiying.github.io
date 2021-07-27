@@ -1,23 +1,41 @@
-I"5<h2 id="切换远程地址">切换远程地址</h2>
+I"�<h2 id="切换远程地址">切换远程地址</h2>
 
-<p>1.git 删除远程地址</p>
+<p>1.git 重命名远程地址</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote rm origin
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote rename origin old-origin
+git remote add origin git@29e931d95ee0:mike/salad.git
 </code></pre></div></div>
 
-<p>2.git 更换远程地址</p>
+<p>2.推送</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git remote add origin http://10.00.3.260:10080/xxxxxx/sxxxy.git/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push -u origin --all
+git push -u origin --tags
 </code></pre></div></div>
 
-<p>3.把当前分支与远程分支进行关联<strong>(branchname要改成你的当前分支名称)</strong></p>
+<h2 id="取消校验">取消校验</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push --set-upstream origin branchname
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit --no-verify -m 'update'
 </code></pre></div></div>
 
-<p>4.强制还原至远程分支一致</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git reset --hard origin/master
+<p>##</p>
+
+<h2 id="通过fetch方式断点续传clone仓库">通过fetch方式断点续传clone仓库</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>进入目录执行 `git ini`t生成`.git`索引文件夹
+执行 `git fetch GIT_REPO_URL`, 如果掉线，可继续重复执行该命令知道看到如下标志表示fetch成功：
+From GIT_REPO_URL
+*branch HEAD -&gt; FETCH_HEAD
+最后执行 `git checkout FETCH_HEAD`
 </code></pre></div></div>
+
+<h2 id="github-镜像访问">GitHub 镜像访问</h2>
+
+<p>这里提供两个最常用的镜像地址：</p>
+
+<ul>
+  <li><a href="https://github.com.cnpmjs.org/">https://github.com.cnpmjs.org</a></li>
+  <li><a href="https://hub.fastgit.org/">https://hub.fastgit.org</a></li>
+</ul>
 
 <h2 id="生成ssh-key">生成ssh key</h2>
 
@@ -62,6 +80,20 @@ git rm .gitmodules             # if you have more than one submodules,
 rm -rf ./submodule_path/.git     # make sure you have backup!!
 git add ./submodule_path         # will add files instead of commit reference
 git commit -m "remove submodule"
+</code></pre></div></div>
+
+<h2 id="patch的方式提交代码">patch的方式提交代码</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//这里的-M是指生成最近M次commit的patch,也可以直接用commit记录
+git format-patch -M
+
+git am --signoff &lt; newpatch.patch
+
+</code></pre></div></div>
+
+<h2 id="快捷merge">快捷merge</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout ask-dev ; git merge $(git branch --show-current) ; 
 </code></pre></div></div>
 
 :ET
