@@ -99,7 +99,7 @@ plugins=( [plugins...] zsh-syntax-highlighting)
 
 ## 快捷密码
 
-## 热键呼出
+## 
 
 
 
