@@ -105,12 +105,14 @@ plugins=( [plugins...] zsh-syntax-highlighting)
 
 # alfred 
 
-## 快速搜索
+## 搜索文件
 
-整理如下：
+‘+文件名
 
-### 1
-
+## 搜索剪贴板
+Setting-Features-Clipboard History
+设置快捷键: Viewer Hotkey
+打勾: Kepp Plain Text
 
 ## 参考
 
