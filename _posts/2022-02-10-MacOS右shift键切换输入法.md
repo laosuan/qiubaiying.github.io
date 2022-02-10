@@ -35,28 +35,33 @@ https://karabiner-elements.pqrs.org/
 
 ```json
 {
-   "description":"单击右Shift切换输入法!",
-   "manipulators":[
+   "title":"单击右Shift切换输入法!",
+   "rules":[
       {
-         "from":{
-            "key_code":"right_shift"
-         },
-         "to":[
+         "description":"单击右Shift切换输入法!",
+         "manipulators":[
             {
-               "key_code":"right_shift"
+               "from":{
+                  "key_code":"right_shift"
+               },
+               "to":[
+                  {
+                     "key_code":"right_shift"
+                  }
+               ],
+               "to_if_alone":[
+                  {
+                     "key_code":"0",
+                     "modifiers":[
+                        "left_control",
+                        "left_option",
+                        "left_command"
+                     ]
+                  }
+               ],
+               "type":"basic"
             }
-         ],
-         "to_if_alone":[
-            {
-               "key_code":"0",
-               "modifiers":[
-                  "left_control",
-                  "left_option",
-                  "left_command"
-               ]
-            }
-         ],
-         "type":"basic"
+         ]
       }
    ]
 }
