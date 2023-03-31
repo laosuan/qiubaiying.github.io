@@ -1,0 +1,254 @@
+---
+layout:     post
+title:     java基础问题
+subtitle:   
+date:       2023-03-31
+author:     laosuan
+header-img: 
+catalog: true
+tags:
+    - 
+
+
+
+---
+
+# Java Object-Oriented Programming
+
+#### 20 questions related to Java Object-oriented programming along with their answers:
+
+1. Q: What is Object-oriented programming (OOP)?
+   A: OOP is a programming paradigm that uses objects, which contain both data (attributes) and behavior (methods), to design software applications. It focuses on modularity, reusability, and encapsulation.
+
+2. Q: What are the four pillars of OOP?
+   A: The four pillars are encapsulation, inheritance, abstraction, and polymorphism.
+
+3. Q: What is a class in Java?
+   A: A class is a blueprint for creating objects in Java. It defines attributes (variables) and methods (functions) that objects can have.
+
+4. Q: How do you create an object in Java?
+   A: You create an object by instantiating a class using the 'new' keyword followed by the class's constructor, e.g., `ClassName objectName = new ClassName();`.
+
+5. Q: What is a constructor in Java?
+   A: A constructor is a special method used to initialize objects. It has the same name as the class and doesn't have a return type.
+
+6. Q: What is inheritance in Java?
+   A: Inheritance is an OOP concept that allows one class to inherit properties and methods from another class, promoting code reusability.
+
+7. Q: What is the 'super' keyword in Java?
+   A: The 'super' keyword is used to call a parent class's constructor, method, or access its attributes from a child class.
+
+8. Q: What is an interface in Java?
+   A: An interface is a collection of abstract methods (without implementation) that a class can implement, serving as a contract between the class and the interface.
+
+9. Q: What is the difference between an abstract class and an interface in Java?
+   A: An abstract class can have both abstract and non-abstract methods, while an interface can only have abstract methods. A class can extend only one abstract class but can implement multiple interfaces.
+
+10. Q: What is polymorphism in Java?
+    A: Polymorphism is an OOP concept that allows objects of different classes to be treated as objects of a common superclass or interface, promoting code flexibility and extensibility.
+
+11. Q: What is method overloading in Java?
+    A: Method overloading is a form of compile-time polymorphism that allows a class to have multiple methods with the same name but different parameter lists.
+
+12. Q: What is method overriding in Java?
+    A: Method overriding is a form of runtime polymorphism where a subclass provides a new implementation for a method that is already defined in its superclass.
+
+13. Q: What is encapsulation in Java?
+    A: Encapsulation is the process of hiding an object's internal state and providing public methods to interact with it, promoting data integrity and modularity.
+
+14. Q: What are access modifiers in Java?
+    A: Access modifiers are keywords that determine the visibility and accessibility of class members. Java has four access modifiers: public, private, protected, and package-private (default).
+
+15. Q: What is the 'this' keyword in Java?
+    A: The 'this' keyword is used to refer to the current instance of a class, distinguishing between instance variables and local variables with the same name.
+
+16. Q: What is a static keyword in Java?
+    A: The 'static' keyword is used to define class-level variables and methods that belong to the class rather than to an instance of the class.
+
+17. Q: What is the difference between 'final', 'finally', and 'finalize' in Java?
+    A: 'final' is a keyword used to declare a variable, method, or class as unchangeable. 'finally' is a block of code that always executes after a try-catch block, even if an exception occurs. 'finalize' is a method in the Object class that gets called by the garbage collector before an object is destroyed, allowing for resource cleanup.
+
+18. Q: What is an inner class in Java?
+    A: An inner class is a class defined within another class. There are four types of inner classes: member inner classes, static inner classes, local inner classes, and anonymous inner classes.
+
+19. Q: What is a package in Java?
+    A: A package is a namespace that organizes classes and interfaces, allowing for easier code management and reducing naming conflicts.
+
+20. Q: What is the difference between '==' and 'equals()' in Java?
+    A: The '==' operator compares object references, checking if two references point to the same object in memory. The 'equals()' method, defined in the Object class, compares the content of two objects for equality. By default, it behaves like '==', but it can be overridden in a class to provide a custom equality check.
+
+
+### Overloading and overriding are two different concepts in Java:
+
+- Overloading: Method overloading is when a class has multiple methods with the same name but different parameter lists. It is a form of compile-time polymorphism.
+- Overriding: Method overriding is when a subclass provides a new implementation for a method that is already defined in its superclass. It is a form of runtime polymorphism.
+
+Here are 10 questions related to overloading, overriding, and other Java concepts:
+
+1. Q: What is the main difference between method overloading and method overriding in Java?
+   A: Method overloading is having multiple methods with the same name but different parameter lists in the same class, while method overriding is redefining a superclass method in a subclass.
+
+2. Q: Can method overloading be done across classes in inheritance?
+   A: Yes, method overloading can be done across classes in inheritance, but it is not considered method overriding since the methods have different parameter lists.
+
+3. Q: Can you overload a main method in Java?
+   A: Yes, you can overload the main method in Java. However, the JVM will only call the main method with the signature `public static void main(String[] args)` as the entry point of your program.
+
+4. Q: Can we override a static method in Java?
+   A: No, you cannot override a static method in Java. Static methods belong to the class, not the instance, and are resolved at compile-time, not runtime.
+
+5. Q: Can we override the constructor in Java?
+   A: No, constructors cannot be overridden in Java since they have the same name as the class and are not inherited by the subclass.
+
+6. Q: What is covariant return type in method overriding?
+   A: Covariant return type in method overriding allows a subclass to change the return type of an overridden method to a subclass of the original return type, as long as it maintains the same method signature.
+
+7. Q: Can we override a private method in Java?
+   A: No, private methods cannot be overridden in Java, as they are not visible to subclasses.
+
+8. Q: Can you override a final method in Java?
+   A: No, you cannot override a final method in Java. The 'final' keyword indicates that the method cannot be changed in subclasses.
+
+9. Q: What is the role of the '@Override' annotation in Java?
+   A: The '@Override' annotation in Java is used to indicate that a method is intended to override a method in the superclass. If the method does not correctly override a superclass method, the compiler will generate an error.
+
+10. Q: Can you override a method with a different access modifier in Java?
+    A: Yes, you can override a method with a different access modifier, but the visibility of the overriding method cannot be more restrictive than the overridden method. For example, a protected method in the superclass can be overridden with a public method in the subclass, but not with a private or package-private method.
+
+
+#### The principle detail of hashmap implementation
+
+
+HashMap is a widely-used data structure in Java that implements the Map interface, allowing you to store key-value pairs in an efficient and organized manner. The principle details of HashMap implementation are as follows:
+
+1. Hashing: HashMap uses a hashing technique to store key-value pairs. When a key-value pair is added to the HashMap, the key is hashed using a hash function to generate an index. This index is used to determine the location (bucket) in the underlying array where the key-value pair will be stored.
+
+2. Buckets: The HashMap is backed by an array of "buckets," where each bucket stores a linked list of key-value pairs. When the hash function generates an index, the key-value pair is stored in the corresponding bucket. If multiple keys have the same hash value (hash collision), they will be stored in the same bucket as separate elements in the linked list.
+
+3. Load factor and resizing: The load factor is a measure of how full the HashMap is allowed to get before resizing occurs. A common default load factor is 0.75, which means that when the HashMap is 75% full, it will automatically resize itself to maintain efficient performance. Resizing involves creating a new, larger array and rehashing all the existing key-value pairs into the new array.
+
+4. Put operation: When adding a key-value pair to the HashMap, the following steps are performed:
+   - The key's hash value is computed.
+   - The index in the array is determined using the hash value.
+   - If the bucket at that index is empty, the key-value pair is added as the first element in the linked list.
+   - If the bucket is not empty, the linked list is iterated to check if the key already exists. If it does, the value is updated; otherwise, the new key-value pair is added at the end of the list.
+
+5. Get operation: To retrieve a value for a specific key from the HashMap, the following steps are performed:
+   - The key's hash value is computed.
+   - The index in the array is determined using the hash value.
+   - The linked list at that index is iterated to find the key-value pair with the matching key. If found, the value is returned; otherwise, null is returned.
+
+6. Remove operation: To remove a key-value pair from the HashMap, the following steps are performed:
+   - The key's hash value is computed.
+   - The index in the array is determined using the hash value.
+   - The linked list at that index is iterated to find the key-value pair with the matching key. If found, the key-value pair is removed from the list.
+
+7. Handling collisions: As mentioned earlier, HashMap handles hash collisions by chaining, where key-value pairs with the same hash value are stored in a linked list in the same bucket. In Java 8, if the number of items in a bucket exceeds a certain threshold (TREEIFY\_THRESHOLD, default 8), the linked list is converted into a balanced binary search tree (red-black tree) to improve search performance.
+
+These are the main principles of HashMap implementation in Java that allow efficient storage and retrieval of key-value pairs.
+
+
+#### The principle detail of hashtable implementation
+
+
+Hashtable is a synchronized data structure in Java that implements the Map interface, allowing you to store key-value pairs in an organized manner. It is similar to HashMap but provides thread safety at the cost of lower performance. The principle details of Hashtable implementation are as follows:
+
+1. Hashing: Like HashMap, Hashtable uses a hashing technique to store key-value pairs. When a key-value pair is added to the Hashtable, the key is hashed using a hash function to generate an index. This index is used to determine the location (bucket) in the underlying array where the key-value pair will be stored.
+
+2. Buckets: The Hashtable is backed by an array of "buckets," where each bucket stores a linked list of key-value pairs. When the hash function generates an index, the key-value pair is stored in the corresponding bucket. If multiple keys have the same hash value (hash collision), they will be stored in the same bucket as separate elements in the linked list.
+
+3. Synchronization: Hashtable is synchronized, which means that its methods (e.g., put, get, and remove) are thread-safe. Only one thread can access the Hashtable at a time, ensuring data consistency in a multi-threaded environment. However, this synchronization adds overhead, making Hashtable less performant compared to non-synchronized alternatives like HashMap.
+
+4. Load factor and resizing: The load factor is a measure of how full the Hashtable is allowed to get before resizing occurs. A common default load factor is 0.75, which means that when the Hashtable is 75% full, it will automatically resize itself to maintain efficient performance. Resizing involves creating a new, larger array and rehashing all the existing key-value pairs into the new array.
+
+5. Put operation: When adding a key-value pair to the Hashtable, the following steps are performed:
+   - The key's hash value is computed.
+   - The index in the array is determined using the hash value.
+   - If the bucket at that index is empty, the key-value pair is added as the first element in the linked list.
+   - If the bucket is not empty, the linked list is iterated to check if the key already exists. If it does, the value is updated; otherwise, the new key-value pair is added at the end of the list.
+
+6. Get operation: To retrieve a value for a specific key from the Hashtable, the following steps are performed:
+   - The key's hash value is computed.
+   - The index in the array is determined using the hash value.
+   - The linked list at that index is iterated to find the key-value pair with the matching key. If found, the value is returned; otherwise, null is returned.
+
+7. Remove operation: To remove a key-value pair from the Hashtable, the following steps are performed:
+   - The key's hash value is computed.
+   - The index in the array is determined using the hash value.
+   - The linked list at that index is iterated to find the key-value pair with the matching key. If found, the key-value pair is removed from the list.
+
+8. Handling collisions: Hashtable handles hash collisions by chaining, where key-value pairs with the same hash value are stored in a linked list in the same bucket.
+
+These are the main principles of Hashtable implementation in Java that allow efficient storage and retrieval of key-value pairs while providing thread safety. However, due to the synchronization overhead, it is generally recommended to use ConcurrentHashMap or a synchronized HashMap in modern applications for better performance and scalability.
+
+
+#### Here are 10 questions related to Java concurrency:
+
+1. Q: What is concurrency in Java?
+   A: Concurrency in Java refers to the ability to execute multiple threads or tasks simultaneously, allowing better resource utilization and improved performance in multi-core processors and multi-processor systems.
+
+2. Q: What is a thread in Java?
+   A: A thread is an independent path of execution within a program. Java supports multithreading, which allows multiple threads to run concurrently within a single process or application, improving responsiveness and performance.
+
+3. Q: How do you create a thread in Java?
+   A: There are two primary ways to create a thread in Java:
+   - Extending the `Thread` class and overriding its `run()` method.
+   - Implementing the `Runnable` interface and defining the `run()` method.
+
+4. Q: What is synchronization in Java?
+   A: Synchronization is a mechanism to control access to shared resources in a concurrent environment. It ensures that only one thread can access a shared resource or a critical section at a time, preventing race conditions and ensuring data consistency.
+
+5. Q: What is the `synchronized` keyword in Java?
+   A: The `synchronized` keyword is used to indicate that a method or a block of code should be executed by only one thread at a time. It can be applied to a method or a block of code, and it works by acquiring a lock on the object before entering the critical section and releasing the lock when the critical section is exited.
+
+6. Q: What is the difference between a synchronized method and a synchronized block in Java?
+   A: A synchronized method is a method that is declared with the `synchronized` keyword, which ensures that only one thread can access the method at a time. A synchronized block is a section of code enclosed within a `synchronized` statement, which ensures that only one thread can access the block at a time. Synchronized blocks provide finer-grained control over synchronization and can help reduce contention by locking only the necessary part of the code.
+
+7. Q: What is the java.util.concurrent package?
+   A: The `java.util.concurrent` package is a set of high-level concurrency utilities introduced in Java 5 to simplify the development of multi-threaded applications. It includes thread-safe collections, thread pooling, synchronization primitives, atomic variables, and other concurrency-related classes and interfaces.
+
+8. Q: What is an ExecutorService in Java?
+   A: An `ExecutorService` is an interface in the `java.util.concurrent` package that provides a high-level, flexible framework for managing and controlling thread execution. It allows you to submit tasks for execution, manage thread pools, schedule tasks, and gracefully shut down threads.
+
+9. Q: What is a Callable and Future in Java?
+   A: A `Callable` is an interface in the `java.util.concurrent` package that represents a task that returns a value. It has a single method, `call()`, which returns a value upon completion. A `Future` is an interface that represents the result of a computation that might not have completed yet. It provides methods to check the completion status, retrieve the result, or cancel the computation.
+
+10. Q: What are atomic variables in Java?
+    A: Atomic variables in Java, provided by the `java.util.concurrent.atomic` package, are thread-safe variables designed for use in concurrent programming. They allow you to perform atomic operations, such as get, set, compare-and-swap, and arithmetic operations, without the need for synchronization, improving performance in highly concurrent environments. Examples include `AtomicInteger`, `AtomicLong`, and `AtomicReference`.
+
+
+#### You:
+more 10 question
+
+
+Here are 10 more questions related to Java concurrency:
+
+1. Q: What is a deadlock in Java?
+   A: A deadlock is a situation in which two or more threads are blocked forever, waiting for each other to release a shared resource. This usually occurs when multiple threads acquire locks in an inconsistent order, leading to a circular dependency.
+
+2. Q: What is a race condition in Java?
+   A: A race condition is a situation in which the behavior of a program depends on the relative timing of events, such as the order in which threads are scheduled to run. Race conditions can lead to unpredictable results and hard-to-debug issues in concurrent programming.
+
+3. Q: What is a Semaphore in Java?
+   A: A Semaphore is a synchronization primitive provided by the `java.util.concurrent` package that controls access to a shared resource using a counter. Semaphores can be used to enforce a maximum number of concurrent access to a resource or to manage access to a pool of resources.
+
+4. Q: What is a CountDownLatch in Java?
+   A: A CountDownLatch is a synchronization primitive provided by the `java.util.concurrent` package that allows one or more threads to wait until a set number of events have occurred. The latch has an initial count, which is decremented by calling the `countDown()` method, and threads can wait for the count to reach zero by calling the `await()` method.
+
+5. Q: What is a CyclicBarrier in Java?
+   A: A CyclicBarrier is a synchronization primitive provided by the `java.util.concurrent` package that allows a group of threads to wait for each other at a predefined synchronization point. When the specified number of threads reach the barrier, they can either continue executing or perform a predefined action before proceeding.
+
+6. Q: What is a ReentrantLock in Java?
+   A: A ReentrantLock is a synchronization primitive provided by the `java.util.concurrent.locks` package that implements a mutual exclusion lock with the same basic behavior as the `synchronized` keyword, but with additional features. ReentrantLock supports reentrancy, fairness, try-locking, and interruption, providing more flexibility and control over synchronization.
+
+7. Q: What is a ReadWriteLock in Java?
+   A: A ReadWriteLock is an interface in the `java.util.concurrent.locks` package that defines a lock that maintains a pair of associated locks: one for read operations and one for write operations. Multiple threads can acquire the read lock simultaneously as long as there is no write lock held, allowing for improved concurrency in read-heavy workloads.
+
+8. Q: What is a ThreadPoolExecutor in Java?
+   A: A ThreadPoolExecutor is a class in the `java.util.concurrent` package that provides a flexible and extensible implementation of the ExecutorService interface, allowing you to manage a pool of worker threads for executing tasks. ThreadPoolExecutor provides various configuration options, such as core pool size, maximum pool size, keep-alive time, and work queue, to fine-tune thread pool behavior.
+
+9. Q: What is the Fork/Join Framework in Java?
+   A: The Fork/Join Framework, introduced in Java 7 as part of the `java.util.concurrent` package, is a parallelism framework designed to efficiently process large-scale divide-and-conquer problems using multiple processor cores. It provides a high-level API for recursively breaking down a problem into smaller subproblems, processing them in parallel, and combining their results.
+
+10. Q: What is the difference between the Runnable and Callable interfaces in Java?
+    A: The Runnable interface represents a task that does not return a result and does not throw checked exceptions. It has a single method, `run()`, which takes no arguments and returns no value. The Callable interface represents a task
